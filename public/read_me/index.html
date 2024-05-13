@@ -1,0 +1,788 @@
+<!doctype html>
+<!--[if IE 6 ]><html lang="en-us" class="ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en-us" class="ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en-us" class="ie8"> <![endif]-->
+<!--[if (gt IE 7)|!(IE)]><!-->
+<html lang="en-us">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>KAYO XLV - POS </title>
+    <meta name="description" content="">
+    <meta name="author" content="KAYO XLV">
+    <meta name="copyright" content="KAYO XLV">
+    <meta name="generator" content="Documenter v2.0 http://rxa.li/documenter">
+    <meta name="date" content="2023-04-26">
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700">
+    <link rel="stylesheet" href="assets/css/documenter_style.css" media="all">
+    <link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.css" media="all">
+
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/jquery.scrollTo.js"></script>
+    <script src="assets/js/jquery.easing.js"></script>
+    <script src="assets/js/jquery.mCustomScrollbar.js"></script>
+    <script>
+    document.createElement('section');
+    var duration = '500',
+        easing = 'swing';
+    </script>
+    <script src="assets/js/script.js"></script>
+</head>
+
+<body>
+    <div id="documenter_sidebar">
+    	<img src="assets/images/logo.png" style="border: none;margin: 20px 20px 0;width: 65%">
+        <ul id="documenter_nav">
+            <li><a class="current" href="#documenter_cover">Start</a></li>
+            <li><a href="#server_requirement" title="SERVER REQUIREMENTS">Server Requirements</a></li>
+            <li><a href="#install" title="INSTALL">Install</a></li>
+            <li><a href="#common-error" title="Common error">Common Error</a></li>
+            <li><a href="#update" title="SOFTWARE UPDATE">Software Update</a></li>
+            <li><a href="#pos-printer" title="POS Printer Configuration">POS Printer Settings</a></li>
+            <li><a href="#empty-db" title="EMPTY DATABASE">Empty Database</a></li>
+            <li><a href="#mail" title="SETUP MAIL SERVER">Setup Mail Server</a></li>
+            <li><a href="#dashboard" title="DASHBOARD">Dashboard</a></li>
+            <li><a href="#product" title="PRODUCT">Product</a></li>
+            <li><a href="#weight-scale-machine" title="Weight Scale Machine">Weight Scale Machine</a></li>
+            <li><a href="#print-barcode" title="Print Barcode">Print Barcode</a></li>
+            <li><a href="#adding-stock" title="Adding Stock">Adding Stock</a></li>
+            <li><a href="#purchase" title="PURCHASE">Purchase</a></li>
+            <li><a href="#automated-purchase" title="Automated Purchase">Automated Purchase</a></li>
+            <li><a href="#sale" title="SALE">Sale</a></li>
+            <li><a href="#expense" title="EXPENSE">Expense</a></li>
+            <li><a href="#quotation" title="QUOTATION">Quotation</a></li>
+            <li><a href="#adjustment" title="QUANTITY ADJUSTMENT">Quantity Adjustment</a></li>
+            <li><a href="#stock-count" title="STOCK COUNT">Stock Count</a></li>
+            <li><a href="#transfer" title="TRANSFER">Transfer</a></li>
+            <li><a href="#return" title="RETURN">Return</a></li>
+            <li><a href="#accounting" title="ACCOUNTING">Accounting</a></li>
+            <li><a href="#hrm" title="HRM">HRM</a></li>
+            <li><a href="#people" title="PEOPLE">People</a></li>
+            <li><a href="#reports" title="REPORTS">Reports</a></li>
+            <li><a href="#dso-alert" title="Daily Sale Objective Alert">Daily Sale Objective Alert</a></li>
+            <li><a href="#setting" title="SETTINGS">Settings</a></li>
+            <li><a href="#translation" title="TRANSLATION">Translation</a></li>
+            <li><a href="#video_tutorial" title="VIDEO TUTORIAL">Video Tutorial</a></li>
+            <li><a href="#support" title="SUPPORT">Support</a></li>
+        </ul>
+    </div>
+    <div id="documenter_content">
+        
+        <section id="documenter_cover">
+            <img src="assets/images/logo.png" style="border: none;margin: 20px 20px 0;width: 25%">
+            <h1><span>Sistem Manajemen POS dengan Inventaris, HRM, Akuntansi</span></h1>
+            <div id="documenter_buttons">&nbsp;</div>
+            <hr />
+            <ul>
+            <li><span>oleh: KAYO XLV</span></li>
+            <li><span>email:&nbsp;</span><a href="mailto:support@kayo45.com"><span>support@kayo45.com</span></a></li>
+            </ul>
+            <p><span>KAYO XLV - POS adalah perangkat lunak yang akan membantu Anda mengelola inventaris, akuntansi, dan SDM.&nbsp;Kami percaya bahwa perangkat lunak ini cocok untuk model bisnis grosir dan eceran dan produk yang ideal untuk Super Shop mana pun.&nbsp;Perangkat lunak yang ramah pengguna ini sepenuhnya responsif dan memiliki banyak fitur.&nbsp;Semoga perangkat lunak ini dapat membantu mengelola inventaris bisnis Anda.</span></p>
+        </section>
+        <section id="server_requirement">
+            <div class="page-header">
+                <h3><span>PERSYARATAN SERVER</span></h3>
+                <hr class="notop" /></div>
+                <p><span>Semua produk kami dirancang pada framework PHP Laravel paling populer.&nbsp;Anda harus memiliki persyaratan minimum untuk menjalankan semua aplikasi kami.&nbsp;Harap pastikan bahwa Anda telah melengkapi persyaratan ini.</span></p>
+                <ul>
+                <li><span>Server Pilihan - Apache/Nginx</span></li>
+                <li><strong><span>PHP Versi 7.4</span></strong></li>
+                <li><span>Ekstensi PHP OpenSSL&nbsp;</span></li>
+                <li><span>Ekstensi PHP PDO&nbsp;</span></li>
+                <li><span>Ekstensi Info File PHP</span></li>
+                <li><span>Ekstensi Mbstring PHP&nbsp;</span></li>
+                <li><span>Ekstensi Tokenizer PHP&nbsp;</span></li>
+                <li><span>Ekstensi PHP Arsip Zip&nbsp;</span></li>
+                <li><span>Mod Tulis Ulang Diaktifkan</span></li>
+                </ul>
+                <p>&nbsp;</p>
+                <p><strong><span>Perlu diketahui jika Anda mencoba menginstal aplikasi di server lain, katakanlah LiteSpeed ​​atau IIS, Anda mungkin mendapatkan hasil yang tidak diinginkan.&nbsp;Kami tidak menyarankan Anda untuk menggunakan server selain Apache atau Nginx.&nbsp;Juga kami tidak menyediakan dukungan untuk instalasi di server selain Apache.</span></strong></p>
+        </section>
+        <section id="install">
+            <div class="page-header">
+                <h3><span>INSTALL</span></h3>
+                <hr class="notop" />
+            </div>
+                <p><strong><span>Localhost</span></strong></p>
+                <p><span>Jika Anda menginstal di localhost, harap diingat bahwa Anda memerlukan Internet untuk instalasi.&nbsp;Setelah instalasi, Anda dapat menggunakan KAYO XLV tanpa Internet.&nbsp;Kami menyarankan Anda menggunakan&nbsp;</span><strong><span>XAMPP</span></strong><span>&nbsp;untuk localhost.&nbsp;Anda dapat menggunakan solusi lain seperti WAMP, MAMP dll. Juga dan proses instalasi untuk semuanya sama.</span></p>
+                <p><span>Buat folder di dalam folder htdocs di dalam instalasi XAMPP Anda.&nbsp;Sekarang salin folder zip yang Anda unduh dari Codecanyon ke folder htdocs dan unzip di sana.&nbsp;Ubah namanya menjadi apa pun yang Anda inginkan.&nbsp;Katakanlah, Anda menamainya- 'folder-saya'.&nbsp;Sekarang mulai XAMPP Anda (atau apa pun yang Anda gunakan) dan buka browser Anda dan akses KAYO XLV dari browser Anda seperti- localhost/my-folder/.</span></p>
+                <p><span>Saat menginstal, Anda mungkin menghadapi 'max execution time error', karena mengimpor dtabase memerlukan waktu cukup lama.&nbsp;Untuk mengatasi masalah ini, tingkatkan nilai 'max_execution_time' dan 'memory_limit' di file php.ini Anda.&nbsp;atur memory_limit=512M dan max_execution_time=480.&nbsp;untuk referensi-&nbsp;</span><a href="https://youtu.be/zvOC76TXOnA"><span>Cara mengedit file php.ini di localhost (XAMPP)</span></a></p>
+                <p><strong><span>Hosting Daring</span></strong></p>
+                <p><span>Unggah folder zip yang Anda unduh dari Codecanyon ke hosting Anda dan unzip.&nbsp;Harap pastikan Anda mengonfigurasi pengaturan hosting web Anda, sehingga menampilkan file dan folder tersembunyi (untuk referensi-&nbsp;</span><a href="https://youtu.be/zvOC76TXOnA"><span>Cara mengaktifkan file dan folder tersembunyi di cpanel</span></a><span>&nbsp;) Ini untuk memastikan bahwa jika Anda menyalin/memindahkan konten dari folder yang telah dibuka zipnya ke folder mana pun lokasi lain, Anda menyalin semua file termasuk file '.htaccess', '.env' yang diperlukan agar perangkat lunak berfungsi dengan baik.&nbsp;Sekarang Anda dapat mengakses folder tempat Anda memiliki KAYO XLV dari browser Anda.</span></p>
+                <p><span>Sekarang ikuti proses instalasi di bawah ini.</span></p>
+
+            <h2><strong><span>Langkah 1</span></strong></h2>
+            <ul>
+                <li><span>Harap baca perjanjian lisensi sebelum melanjutkan.</span></li>
+                <li><span>Anda harus menerima dan melanjutkan untuk pergi ke langkah berikutnya.</span></li>
+            </ul>
+            <img alt="" src="assets/images/step1.png">
+            <h2><strong>Langkah 2</strong></h2>
+            <ul>
+                <li>
+                    Sistem akan secara otomatis memeriksa persyaratan server. Jika semua persyaratan terpenuhi, Anda dapat melanjutkan untuk tindakan selanjutnya.
+                </li>
+            </ul>
+            <img alt="" src="assets/images/step2.png">
+            <h2><strong>Langkah 3</strong></h2>
+            <ul>
+                <li>
+                    Anda harus mengisi formulir dengan informasi yang benar.
+                </li>
+                <li>
+                    Silahkan masukan kode pembelian.
+                </li>
+                <li>
+                    Masukkan host basis data Anda misalnya (localhost).
+                </li>
+                <li>
+                    Nama pengguna basis data Anda misalnya (root).
+                </li>
+                <li>
+                    Kata sandi basis data Anda (jika ada).
+                </li>
+                <li>
+                    Nama database yang telah Anda buat.
+                </li>
+                <li>
+                    Klik kirim.
+                </li>
+            </ul>
+            <img alt="" src="assets/images/step3.png">
+            <h2><strong>Langkah 4</strong></h2>
+            <ul>
+                <li>Selamat! Anda telah berhasil menginstal KAYO XLV - POS.<br>
+                    Note : Proses otomatis ini seharusnya menghapus folder install yang ada di dalam folder project. Folder project anda berisi folder 'install', maka silahkan hapus folder tersebut.
+                </li>
+            </ul>
+            <br>
+            <h2>Video Instalasi</h2>
+            <p>Tonton video yang menunjukkan langkah-langkah yang disebutkan di atas. (Anda memerlukan koneksi internet untuk memutar video)</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Fvi09MgBxUU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br><br>
+            <p>Anda juga dapat menonton video ini di <a href="https://www.youtube.com/watch?v=Fvi09MgBxUU">youtube</a></p>
+
+            <h2><strong>Membantu pemasangan</strong></h2>
+            <p>Kami dapat membantu Anda menginstal hosting berbasis cpanel apa pun hanya dengan $15. Anda dapat mengirim uang melalui paypal ke tarik_17@yahoo.co.uk. Hubungi kami di <a href="https://kayo45.com/support">Support</a> dengan detail hosting dan bukti pembayaran Anda dan kami akan mengurus sisanya.</p>
+            <p><strong>Harap diperhatikan </strong>- Jika Anda menginstal di localhost, kami akan membebankan biaya $50 untuk dukungan desktop/penampil tim apa pun (instalasi).</p>
+        </section>
+        <section id="common-error">
+            <div class="page-header">
+                <h3>Kesalahan Umum</h3>
+                <hr class="notop">
+            </div>
+            <p>Jika Anda menghadapi 500 server error setelah menginstal perangkat lunak, perbarui versi php Anda ke 7.4. Jika Anda masih mendapatkan error 500 setelah memperbarui versi php, 
+                buka file '.env' Anda dan ubah nilai 'APP_DEBUG' menjadi true. Anda akan menemukan file '.env' di folder root (KAYO XLV) Dan kemudian pergi ke halaman lagi 
+                di mana Anda mendapatkan 500 kesalahan server. Anda akan melihat deskripsi kesalahan aktual sekarang. Silakan ambil tangkapan layar dan kirimkan bersama dengan detail akses cpanel Anda,
+                sehingga kami dapat memeriksanya.</p>
+            <img alt="" src="assets/images/env.png">
+            <img alt="" src="assets/images/app_debug.png">
+        </section>
+        <section id="update">
+            <div class="page-header">
+                <h3>SOFTWARE UPDATE</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>UPDATE dengan Data yang Ada</strong></h2>
+            <p>Anda dapat memperbarui perangkat lunak dengan sangat mudah dengan mengikuti 4 langkah berikut:</p>
+            <ul>
+                <li>Ubah nama database Anda sebelumnya seperti KAYOXLV-POS-backup.sql.</li>
+                <li>Hapus folder proyek dan instal ulang</li>
+                <li>Gabungkan basis data Anda saat ini dengan yang sebelumnya dengan <a href="https://www.red-gate.com/products/mysql/mysql-compare/index">MySQL Compare</a>. Jika Anda adalah pengguna linux, Anda dapat menggunakan <a href="https://www.navicat.com/en/">Navicat</a> untuk menggabungkan basis data.</li>
+                <li>Setelah itu hapus database baru dan ganti nama yang sebelumnya dengan nama database sekarang seperti KAYOXLV-POS-backup.sql menjadi KAYOXLV-POS.sql</li>
+            </ul>
+            <p><strong>Harap ikuti spanshot berikut dengan hati-hati untuk menggabungkan basis data:</strong></p>
+            <p>Buka perangkat lunak.</p>
+            <p>
+                <img alt="" src="assets/images/update1.png">
+            </p>
+            <p>Pilih basis data sumber dan target Anda dan klik bandingkan sekarang.</p>
+            <p>
+                <img alt="" src="assets/images/update2.png">
+            </p>
+            <p>Setelah berhasil membandingkan dua database, klik ok.</p>
+            <p>
+                <img alt="" src="assets/images/update3.png">
+            </p>
+            <p>Kemudian pilih kotak centang dan klik Diployment Wizard.</p>
+            <p>
+                <img alt="" src="assets/images/update4.png">
+            </p>
+            <p>Hapus centang pada kotak Recompare after deployment dan klik next.</p>
+            <p>
+                <img alt="" src="assets/images/update5.png">
+            </p>
+            <p>Klik Deploy now.</p>
+            <p>
+                <img alt="" src="assets/images/update6.png">
+            </p>
+            <p>Klik Ok.</p>
+            <p>
+                <img alt="" src="assets/images/update7.png">
+            </p>
+            <p>Itu saja! Anda baru saja memperbarui database. Sekarang ikuti langkah 4 seperti yang kami jelaskan sebelumnya.</p>
+            <h2><strong>UPDATE tanpa Data yang Ada</strong></h2>
+            <p>Anda dapat memperbarui perangkat lunak dengan sangat mudah dengan mengikuti 2 langkah berikut:</p>
+            <ul>
+                <li>Hapus database Anda sebelumnya.</li>
+                <li>Hapus folder proyek dan instal ulang</li>
+            </ul>
+            <p><strong>Masih menghadapi masalah? Jangan khawatir! Kami dapat memperbarui perangkat lunak Anda seharga USD 15. Silakan hubungi kami di <a href="https://kayo45.com/support">Support</a>.</strong></p>
+        </section>
+        <section id="pos-printer">
+            <div class="page-header">
+                <h3>Konfigurasi Printer POS</h3>
+                <hr class="notop">
+            </div>
+            <p>
+                Pertama Anda harus menginstal driver printer Anda. Lalu pergi ke pengaturan dan pilih Perangkat.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer1.png">
+            </p>
+            <p>
+                Lalu pergi ke Perangkat dan printer.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer2.png">
+            </p>
+            <p>
+                Tetapkan printer POS Anda sebagai default printer.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer3.png">
+            </p>
+            <p>
+                Lalu pergi ke Printing preferences.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer4.png">
+            </p>
+            <p>
+                Lalu ke Advanced.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer5.png">
+            </p>
+            <p>
+                Pilih opsi 3 ukuran kertas dan klik Ok.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer6.png">
+            </p>
+            <p>
+                Setelah itu pergi ke printer properties.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer7.png">
+            </p>
+            <p>
+                Buka pengaturan perangkat dan pilih opsi ke-3 otomatis.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer8.png">
+            </p>
+            <p>
+                Harap pastikan Anda memilih ukuran kertas yang benar (opsi ke-3) saat Anda ingin mencetak faktur.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos_printer9.png">
+            </p>
+        </section>
+        <section id="empty-db">
+            <div class="page-header">
+                <h3>Empty Database</h3>
+                <hr class="notop">
+            </div>
+            <p>
+                Ketika Anda menginstal perangkat lunak ini, akan ada beberapa data dummy. Untuk menghapus semua data tiruan ini, klik nama pengguna Anda di bilah navigasi atas. 
+                Kemudian Anda akan melihat opsi bernama Empty Database. Klik itu dan semua data dummy akan dihapus secara otomatis.
+            </p>
+            <p>
+                <img alt="" src="assets/images/empty_database1.png">
+            </p>
+            <p>
+                <img alt="" src="assets/images/empty_database2.png">
+            </p>
+        </section>
+        <section id="mail">
+            <div class="page-header">
+                <h3>SETUP MAIL SERVER</h3>
+                <hr class="notop">
+            </div>
+            <p><span>Untuk menambahkan fungsionalitas email ke inventaris Anda, Anda harus menyiapkan server email terlebih dahulu.&nbsp;Untuk melakukan ini, pergi ke&nbsp;</span><strong><span>Mail Setting</span></strong><span>&nbsp;di bawah&nbsp;</span><strong><span>Setting</span></strong><span>&nbsp;module.&nbsp;Anda harus mengisi informasi berikut.</span></p>
+            <p>
+                <img alt="" src="assets/images/mail1.png">
+            </p>
+        </section>
+        <section id="dashboard">
+            <div class="page-header">
+                <h3>DASHBOARD</h3>
+                <hr class="notop">
+            </div>
+            <p>
+                Kami memiliki dasboard yang tampak cantik untuk pelanggan kami dari mana mereka mendapatkan informasi Pendapatan, Pengembalian Penjualan, Pengembalian Pembelian, dan Keuntungan hari ini / 7 hari terakhir / bulan ini / tahun ini secara sekilas dengan satu klik.
+            </p>
+            <p>
+                <img alt="" src="assets/images/dashboard1.png">
+            </p>
+            <p>Anda akan mendapatkan informasi tentang arus kas Anda yang berarti berapa banyak uang yang Anda hasilkan dan berapa banyak uang yang Anda keluarkan dari diagram garis ini.</p>
+            <p>
+                <img alt="" src="assets/images/dashboard4.png">
+            </p>
+            <p><strong><span>Anda juga mengetahui pembelian</span></strong><span>bulan ini,<strong>pengeluaran</strong></span><strong><span>pendapatan</span></strong><span>dari bagan donat ini.</span></p>
+            <p>
+                <img alt="" src="assets/images/dashboard5.png">
+            </p>
+            <p>Diagram batang menunjukkan laporan tahunan pembelian dan penjualan tahun ini.</p>
+            <p><img alt="" src="assets/images/dashboard2.png"></p>
+            <p>Dari Dashboard Anda juga akan mendapatkan transaksi terkini (penjualan, pembelian, penawaran, pembayaran) dan 5 produk terlaris teratas bulan ini dan tahun ini.</p>
+            <p><img alt="" src="assets/images/dashboard3.png"></p>
+        </section>
+        <section id="product">
+            <div class="page-header">
+                <h3>PRODUK</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Kategori</strong></h2>
+            <p>Anda dapat menambah, mengedit, dan menghapus kategori produk. Anda juga dapat mengimpor kategori dari file CSV dan mengekspor data tabel ke PDF, Excel, CSV. Anda juga dapat mencetak data dari tabel.</p>
+            <p>
+                <img alt="" src="assets/images/category1.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/category2.png">
+            </p>
+            <p>
+                <img alt="" src="assets/images/category3.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/category4.png">
+            </p>
+            <p>
+                Jika Anda tidak ingin mengekspor kolom apa pun, Anda dapat melakukannya dengan mengklik tombol Visibilitas Kolom. Dari sini Anda dapat memilih kolom untuk dihapus dari tabel.
+            </p>
+            <p>
+                <img alt="" src="assets/images/category5.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/category6.png">
+            </p>
+            <p>Untuk mengekspor data dari baris tertentu, Anda hanya perlu mencentang kotak centang pada baris terkait</p>
+            <p>
+                <img alt="" src="assets/images/category9.png">
+            </p>
+            <p>Jika Anda ingin menghapus semua baris dari tabel, Anda dapat melakukannya dengan sangat mudah seperti yang ditunjukkan di bawah ini. Anda juga dapat menghapus baris tertentu dari tabel.</p>
+            <p>
+                <img alt="" src="assets/images/category10.png">
+            </p>
+            <p>
+                Jika Anda ingin mencari sesuatu dari tabel, Anda cukup mengetikkan kata di kotak pencarian.
+            </p>
+            <p>
+                <img alt="" src="assets/images/category7.png">
+            </p>
+            <p>
+                Anda juga dapat mengontrol pagination dari <strong>Show</strong> dropdown.
+            </p>
+            <p>
+                <img alt="" src="assets/images/category8.png">
+            </p>
+            <h2><strong>Produk</strong></h2>
+            <p>Di bagian produk Anda hanya akan menambahkan informasi umum suatu produk. <strong>Untuk menambah stok Anda harus membeli produk tersebut,</strong> 
+                membuat tiga jenis produk di KAYO XLV - POS </p>
+            <ul>
+                <li>Standard</li>
+                <li>Digital</li>
+                <li>Combo (Kombinasi produk standar. Seperti jus mangga adalah produk combo karena terdiri dari mangga dan gula).</li>
+                <li>Service</li>
+            </ul>
+            <p>Anda dapat menambah, mengedit, dan menghapus produk. Anda dapat mengimpor produk dari CSV. 
+                <strong>Anda harus mengikuti petunjuk untuk mengimpor data dari CSV</strong>. 
+                Untuk mendapatkan pemahaman yang lebih baik, Anda dapat mengunduh file sampel.</p>
+            <p>
+                <img alt="" src="assets/images/product1.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/product2.png">
+            </p>
+            <p>Anda dapat mengurutkan data tabel menurut kolom</p>
+            <p><img alt="" src="assets/images/product3.png"></p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas sebelumnya dengan lebih detail</p>
+        </section>
+        <section id="weight-scale-machine">
+            <div class="page-header">
+                <h3>Mesin Timbangan Berat</h3>
+                <hr class="notop">
+            </div>
+            <p>KAYO XLV - POS kompatibel dengan mesin timbangan. Tetapi Anda harus mengikuti aturan dengan ketat. Pada mesin timbangan berat badan mesin akan memberikan label berupa 13 digit barcode. Perhatikan gambar berikut: </p>
+            <p><img alt="" src="assets/images/weight_machine1.jpeg"></p>
+            <p>Disini 7 digit pertama adalah kode produk yang harus sama dengan kode produk KAYO XLV - POS. 5 digit berikutnya berisi bobot dan digit terakhir adalah angka acak. Setiap kali Anda meletakkan produk pada mesin skala berat, itu akan menghasilkan label jenis ini secara otomatis. Maka yang harus Anda lakukan adalah memindai label ini. Info dan berat produk akan dihitung secara otomatis dengan KAYO XLV - POS. Namun kode produk harus sama baik untuk KAYO XLV - POS maupun mesin timbangan.</p>
+            <p><img alt="" src="assets/images/weight_machine2.jpeg"></p>
+        </section>
+        <section id="print-barcode">
+            <div class="page-header">
+                <h3>Cetak Barcode</h3>
+                <hr class="notop">
+            </div>
+            <P>Anda dapat mencetak barcode dengan KAYO XLV. Ukuran kertas yang tersedia adalah 36mm, 24mm dan 18mm. Apa pun selain itu mungkin tidak berfungsi dengan benar. Untuk mencetak barcode kami sangat menyarankan untuk menggunakan <strong>Brother Label Printer.</strong></P>
+        </section>
+        <section id="adding-stock">
+            <div class="page-header">
+                <h3>MENAMBAH STOK</h3>
+                <hr class="notop">
+            </div>
+            <P>Di bagian <strong>Produk </strong> Anda baru saja menambahkan informasi umum produk. Lalu dari mana stok itu berasal? 
+                Untuk menambah stok, Anda harus membeli produk tersebut untuk gudang tertentu. 
+                Perangkat lunak ini cukup pintar sehingga secara otomatis memperbarui jumlah stok dan Anda tidak perlu khawatir.</P>
+        </section>
+        <section id="purchase">
+            <div class="page-header">
+                <h3>PEMBELIAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambahkan Pembelian</strong></h2>
+            <p>Anda dapat membuat pembelian dalam modul Pembelian. <strong>Dengan melakukan pembelian, jumlah stok produk akan meningkat</strong>, 
+                Ada tiga status pembelian: Diterima, Sebagian, Tertunda, Dipesan. Anda dapat menambahkan produk ke tabel pesanan dengan mengetik atau memindai kode barcode produk</p>
+            <p>
+                <img alt="" src="assets/images/purchase1.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/purchase2.png">
+            </p>
+            <p>Anda juga dapat mengedit info produk dari tabel pesanan.</p>
+            <p><img alt="" src="assets/images/purchase3.png"></p>
+            <p>Setelah membuat pembelian, Anda akan diarahkan ke halaman indeks pembelian. Anda akan mendapatkan ringkasan pembelian dari tabel. Untuk mendapatkan detail Anda hanya perlu mengklik di baris tabel.</p>
+            <p><img alt="" src="assets/images/purchase4.png"></p>
+            <h2><strong>Import Pembelian </strong></h2>
+            <p>Anda dapat mengimpor penjualan dari CSV.<strong> Anda harus mengikuti petunjuk untuk mengimpor data dari CSV</strong>. Untuk mendapatkan pemahaman yang lebih baik, Anda dapat mengunduh file sampel.</p>
+            <p><img alt="" src="assets/images/purchase7.png"></p>
+            <h2><strong>Pembayaran</strong></h2>
+            <p>Anda dapat melakukan pembayaran dari tabel Pembelian. Anda dapat melakukan pembayaran dengan Uang Tunai, Kartu Hadiah, Cek, Kartu Kredit dan Deposit.</p>
+            <p><img alt="" src="assets/images/purchase5.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/purchase6.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Product</a> .</p>
+        </section>
+        <section id="automated-purchase">
+            <div class="page-header">
+                <h3>Pembelian Otomatis</h3>
+                <hr class="notop">
+            </div>
+            <p>Pengguna dapat melakukan pembelian otomatis untuk produk-produk yang jumlahnya melebihi kuantitas peringatan dengan mengatur tugas cron. Silakan ikuti langkah-langkah berikut untuk membuatnya bisa diterapkan.</p>
+            <p>Pertama pergi ke cpanel dan pergi ke cron job settings</p>
+            <p><img alt="" src="assets/images/automated_purchase1.png"></p>
+            <p>Kemudian atur tugas cron seperti yang dijelaskan di bawah ini. Di sini tugas cron diatur untuk setiap 5 menit. Jadi sistem akan memeriksa setiap lima menit dan jika ada produk yang melebihi jumlah peringatan, pembelian otomatis akan dilakukan.</p>
+            <p><img alt="" src="assets/images/automated_purchase2.png"></p>
+            <p><strong>Note:</strong> Jika Anda menghadapi masalah apa pun saat menyiapkan tugas cron, silakan hubungi di <a href="https://kayo45.com/support">Support</a>.</p>
+        </section>
+        <section id="sale">
+            <div class="page-header">
+                <h3>PENJUALAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>POS</strong></h2>
+            <p>Anda dapat membuat penjualan dari POS. Pelanggan, Gudang dan Penagih (perwakilan perusahaan Anda) akan dipilih secara otomatis sesuai dengan Pengaturan POS di bawah melalui modul
+                <a href="#setting">Settings</a>. Keybord layar sentuh diaktifkan dalam modul POS. Anda dapat menambahkan produk ke tabel pesanan dengan mengetik atau memindai kode batang produk. Produk Unggulan akan ditampilkan di sisi kanan. Anda juga dapat menambahkan produk dengan mengklik gambar produk. Anda dapat mengedit info produk dari tabel pesanan.</p>
+            <p>
+                <img alt="" src="assets/images/sale1.png">
+                <img alt="" src="assets/images/sale2.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/sale3.png">
+            </p>
+            <p>Untuk menambahkan diskon pesanan, pajak pesanan, dan biaya pengiriman, Anda hanya perlu mengklik tombol yang ada di bawah ini. Untuk menyelesaikan penjualan, Anda harus mengklik tombol <strong>Pembayaran</strong>.</p>
+            <p><img alt="" src="assets/images/sale4.png"></p>
+            <p>Setelah membuat penjualan, Anda akan diarahkan ke halaman indeks penjualan. Surat konfirmasi akan dikirim secara otomatis ke email pelanggan dengan detail penjualan. Anda akan mendapatkan ringkasan penjualan dari tabel. Untuk mendapatkan detail Anda hanya perlu mengklik di baris tabel.</p>
+            <p>Anda juga dapat menghasilkan <strong>Faktur/Struk</strong> secara otomatis</p>
+            <p><img alt="" src="assets/images/sale6.png"></p>
+            <p>Anda juga dapat membuat obral dengan mengklik tombol Add Sale. Anda juga dapat mengimpor penjualan dari CSV.<strong>Anda harus mengikuti petunjuk untuk mengimpor data dari CSV</strong>. Untuk mendapatkan pemahaman yang lebih baik, Anda dapat mengunduh file sampel. </p>
+            <p><img alt="" src="assets/images/sale5.png"></p>
+            <h2><strong>Pembayaran Penjualan</strong></h2>
+            <p>Anda dapat melakukan pembayaran dari tabel Sale. Anda dapat melakukan pembayaran dengan Uang Tunai, Cek, Kartu Kredit, Kartu Hadiah, Deposit dan Paypal. Surat konfirmasi akan dikirim secara otomatis ke email pelanggan dengan rincian pembayaran.</p>
+            <p><img alt="" src="assets/images/purchase5.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/purchase6.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+            <h2><strong>Pengiriman</strong></h2>
+            <p>Anda dapat menambahkan pengiriman untuk produk yang Anda jual. Surat konfirmasi akan dikirim secara otomatis ke email pelanggan dengan rincian pengiriman.</p>
+            <p><img alt="" src="assets/images/delivery1.png"></p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+            <h2><strong>Kartu Hadiah / GiftCard</strong></h2>
+            <p>Anda dapat menjual GiftCard kepada pelanggan. Dengan menggunakan kartu hadiah pelanggan dapat membeli produk. Lagi-lagi GiftCard dapat diisi ulang. Pelanggan akan diberi tahu melalui surat saat menugaskan atau mengisi ulang Kartu Hadiah.</p>
+            <p>
+                <img alt="" src="assets/images/gift_card1.png">&nbsp;&nbsp;
+                <img alt="" src="assets/images/gift_card2.png">
+            </p>
+        </section>
+        <section id="expense">
+            <div class="page-header">
+                <h3>PENGELUARAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Kategori Biaya</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus kategori pengeluaran di modul Pengeluaran.</p>
+            <p>
+                <img alt="" src="assets/images/expense1.png">
+            </p>
+            <h2><strong>Pengeluaran</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus pengeluaran di modul Pengeluaran.</p>
+            <p>
+                <img alt="" src="assets/images/expense2.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="quotation">
+            <div class="page-header">
+                <h3>PENAWARAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambah Penawaran</strong></h2>
+            <p>Anda dapat membuat penawaran dalam modul Penawaran. Ada dua status penawaran: Tertunda dan Terkirim</p>
+            <p>
+                <img alt="" src="assets/images/quotation1.png">
+            </p>
+            <p>Jika status penawaran <strong>Terkirim</strong>, surat konfirmasi akan dikirim secara otomatis ke email pelanggan dengan detail penawaran</p>
+            <h2><strong>Buat Penjualan</strong></h2>
+            <p>Anda dapat membuat penjualan dari Penawaran/Quotation.</p>
+            <p><img alt="" src="assets/images/quotation2.png">
+            </p>
+            <h2><strong>Buat Pembelian</strong></h2>
+            <p>Anda dapat membuat pembelian dari Penawaran/Quotation.</p>
+            <p><img alt="" src="assets/images/quotation3.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="adjustment">
+            <div class="page-header">
+                <h3>PENYESUAIAN / QUANTITY ADJUSTMENT</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambahkan Penyesuaian</strong></h2>
+            <p>Anda dapat mengatur kuantitas produk dalam modul Quantity Adjustment. Akan ada dua operasi: Pengurangan dan Penambahan</p>
+            <p>
+                <img alt="" src="assets/images/adjustment1.png">
+                <img alt="" src="assets/images/adjustment2.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="stock-count">
+            <div class="page-header">
+                <h3>STOCK COUNT</h3>
+                <hr class="notop">
+            </div>
+            <p>Anda dapat menghitung stok Anda dari modul ini. Tersedia dua jenis: <strong>Full</strong> dan  <strong>Partial</strong>. Pada tipe Partial pengguna harus menentukan merek dan kategori dan perangkat lunak akan secara otomatis menghitung stok untuk merek atau kategori tersebut. Kemudian informasi ini akan ditulis dalam file CSV yang harus Anda unduh untuk menyelesaikan penghitungan stok. Silakan ikuti instruksi dengan benar. Setelah menyelesaikan penghitungan stok, Anda dapat menyesuaikan jumlah produk secara otomatis jika diperlukan.</p>
+        </section>
+        <section id="transfer">
+            <div class="page-header">
+                <h3>TRANSFER</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambah Transfer</strong></h2>
+            <p>Anda dapat mentransfer produk Anda dari satu gudang ke gudang lainnya dalam modul Transfer. Anda juga dapat mentransfer produk dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong> Untuk mendapatkan pemahaman yang lebih baik, Anda dapat mengunduh file sampel. Anda akan mendapatkan detail transfer dengan mengklik baris tabel.</p>
+            <p>
+                <img alt="" src="assets/images/transfer1.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="return">
+            <div class="page-header">
+                <h3>PENGEMBALIAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambah Pengembalian</strong></h2>
+            <p>Anda dapat mengembalikan produk Anda dengan modul Pengembalian. Anda dapat melacak pengembalian pembelian dan penjualan dengan modul ini. Surat konfirmasi akan dikirim secara otomatis ke email pelanggan dengan detail pengembalian jika pelanggan mengembalikan produk. Sekali lagi jika Anda mengembalikan produk ke pemasok, surat konfirmasi akan dikirim secara otomatis ke email pemasok dengan perincian pengembalian. Anda akan mendapatkan detail pengembalian dengan mengklik baris tabel.</p>
+            <p>
+                <img alt="" src="assets/images/return1.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="accounting">
+            <div class="page-header">
+                <h3>Akuntansi</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Akun</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus akun untuk menautkan semua transaksi Anda. Anda juga dapat mengatur akun default untuk dijual. Semua pembayaran harus dilakukan di bawah akun.</p>
+            <p>
+                <img alt="" src="assets/images/accounting_1.png">
+            </p>
+            <p>Anda dapat menghasilkan <strong>Neraca</strong> akun Anda. Anda juga dapat membuat <strong>Laporan Rekening</strong> dari rekening tertentu untuk melihat semua transaksi yang telah dilakukan dengan rekening tersebut.</p>
+        </section>
+        <section id="hrm">
+            <div class="page-header">
+                <h3>HRM</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Departemen</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus departemen perusahaan Anda.</p>
+            <h2><strong>Karyawan</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus karyawan perusahaan Anda. Anda juga dapat memberikan akses pengguna ke karyawan.</p>
+            <h2><strong>Kehadiran</strong></h2>
+            <p>Anda dapat mengambil absensi karyawan dengan software ini. Anda dapat mengatur waktu CheckIn dan CheckOut di opsi Pengaturan HRM di bawah Modul Pengaturan.</p>
+            <h2><strong>Daftar gaji</strong></h2>
+            <p>Anda dapat membuat penggajian karyawan Anda dengan software ini. Semua penggajian harus dilakukan dari rekening tertentu.</p>
+        </section>
+        <section id="people">
+            <div class="page-header">
+                <h3>PENGGUNA</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambah Pengguna</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus akun pengguna. Dengan membuat kata sandi akun pengguna akan dikirim ke email pengguna yang diberikan. Sekali lagi Anda dapat mengaktifkan atau menonaktifkan pengguna.</p>
+            <p>Ada juga opsi daftar untuk membuat akun pengguna. Tapi ID-nya tidak akan diaktifkan sampai admin menyetujuinya.</p>
+            <p>
+                <img alt="" src="assets/images/user1.png">
+            </p>
+            <h2><strong>Tambah Pelanggan</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus pelanggan. Setelah pelanggan membuat email konfirmasi akan secara otomatis dikirim ke pelanggan. Anda dapat menambahkan uang ke database pelanggan seperti rekening bank. Anda juga dapat mengimpor pelanggan dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/customer1.png">
+            </p>
+            <p>
+                <img alt="" src="assets/images/customer2.png">
+            </p>
+            <h2><strong>Tambah Biller</strong></h2>
+            <p>Biller adalah perwakilan perusahaan Anda. Anda mungkin memiliki banyak perusahaan dan ingin mengelola semua inventaris Anda dari satu platform. Jadi ini adalah solusi untuk perusahaan. Anda dapat membuat, mengedit, dan menghapus biller. Setelah membuat biller, email konfirmasi akan secara otomatis dikirim ke biller. Anda juga dapat mengimpor biller dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/biller1.png">
+            </p>
+            <h2><strong>Tambah Pemasok/Supplier</strong></h2>
+            <p>Pemasok adalah orang dari siapa Anda membeli produk. Anda dapat membuat, mengedit, dan menghapus pemasok. Setelah membuat pemasok, email konfirmasi akan secara otomatis dikirim ke pemasok. Anda juga dapat mengimpor pemasok dengan file CSV.  <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/supplier1.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+        </section>
+        <section id="reports">
+            <div class="page-header">
+                <h3>Laporan</h3>
+                <hr class="notop">
+            </div>
+            <p><span>Anda dapat membuat berbagai laporan secara otomatis dengan menggunakan KAYO XLV-POS.</span></p>
+            <ul>
+                <li><strong><span>Laporan Laba / Rugi</span></strong></li>
+                <li><strong><span>Laporan Penjual Terbaik</span></strong></li>
+                <li><strong><span>Laporan Produk</span></strong></li>
+                <li><strong><span>Laporan Penjualan Harian</span></strong></li>
+                <li><strong><span>Laporan Penjualan Bulanan</span></strong></li>
+                <li><strong><span>Laporan Pembelian Harian</span></strong></li>
+                <li><strong><span>Laporan Pembelian Bulanan</span></strong></li>
+                <li><strong><span>Laporan Penjualan</span></strong></li>
+                <li><strong><span>Diagram Laporan Penjualan</span></strong></li>
+                <li><strong><span>Laporan Pembayaran</span></strong></li>
+                <li><strong><span>Laporan Pembelian</span></strong></li>
+                <li><strong><span>Laporan Bagan Stok Gudang</span></strong></li>
+                <li><strong><span>Laporan Peringatan Kuantitas Produk</span></strong></li>
+                <li><strong><span>Laporan Penjualan Harian</span></strong></li>
+                <li><strong><span>Laporan Pengguna</span></strong></li>
+                <li><strong><span>Laporan Pelanggan</span></strong></li>
+                <li><strong><span>Laporan Pemasok/Suplier</span></strong></li>
+                <li><strong><span>Laporan Jatuh Tempo</span></strong></li>
+            </ul>
+        </section>
+        <section id="dso-alert">
+            <div class="page-header">
+                <h3>Peringatan Penjualan Harian</h3>
+                <hr class="notop">
+            </div>
+            <p>Anda dapat menetapkan tujuan penjualan harian untuk produk tertentu. Berarti jumlah minimum yang terjual untuk suatu produk dalam sehari. 
+                Jika produk tidak dapat memenuhi tujuan, pengguna akan diberi tahu di dasboard. Untuk membuat fitur ini terotomatisasi, Anda harus mengatur tugas cron dengan benar.</p>
+            <p>Pertama pergi ke cpanel dan pergi ke cron job settings</p>
+            <p><img alt="" src="assets/images/automated_purchase1.png"></p>
+            <p>Kemudian atur tugas cron seperti yang dijelaskan di bawah ini. Di sini tugas cron diatur sekali sehari. Jadi sistem akan memeriksa pada pukul 12:00 jika ada produk yang tidak dapat memenuhi target penjualan harian untuk hari sebelumnya. Produk yang tidak dapat memenuhi target penjualan harian akan dimasukkan ke dalam laporan target penjualan harian.</p>
+            <p><img alt="" src="assets/images/dso_alert1.png"></p>
+            <p><strong>Note:</strong> Jika Anda menghadapi masalah apa pun saat menyiapkan tugas cron, silakan hubungi di <a href="https://kayo45.com/support">Support</a>.</p>
+        </section>
+        <section id="setting">
+            <div class="page-header">
+                <h3>PENGATURAN</h3>
+                <hr class="notop">
+            </div>
+            <h2><strong>Tambah Role</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus peran pengguna. Anda dapat mengontrol akses pengguna dengan mengubah izin peran. Jadi, di bawah peran tertentu pengguna memiliki akses khusus atas perangkat lunak ini</p>
+            <p>
+                <img alt="" src="assets/images/role1.png">
+            </p>
+            <h2><strong>Tambah Gudang</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus gudang. Anda juga dapat mengimpor gudang dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/warehouse1.png">
+            </p>
+            <h2><strong>Tambah Grup Pelanggan</strong></h2>
+            <p>
+                Anda dapat membuat, mengedit, dan menghapus grup pelanggan. Kelompok pelanggan yang berbeda memiliki harga yang berbeda atas produk tersebut. Anda dapat memodifikasi ini dengan mengubah persentase harga dalam modul Customer Group.
+            </p>
+            <p>
+                Anda juga dapat mengimpor grup pelanggan dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong>
+            </p>
+            <p>
+                <img alt="" src="assets/images/customer_group1.png">
+            </p>
+            <h2><strong>Tambah Brand</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus merek produk. Anda juga dapat mengimpor merek dengan file CSV <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/brand1.png">
+            </p>
+            <h2><strong>Tambah Satuan</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus satuan produk. Anda juga dapat mengimpor merek dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/unit1.png">
+            </p>
+            <h2><strong>Tambah Pajak</strong></h2>
+            <p>Anda dapat membuat, mengedit, dan menghapus pajak produk yang berbeda. Anda juga dapat mengimpor pajak dengan file CSV. <strong>Anda harus mengikuti instruksi untuk mengimpor data dari CSV.</strong></p>
+            <p>
+                <img alt="" src="assets/images/tax1.png">
+            </p>
+            <p>Dan Anda dapat mencari, mengekspor, dan mencetak data dari tabel yang telah kita bahas di bagian <a href="#product">Produk</a>.</p>
+            <h2><strong>General Settings</strong></h2>
+            <p>Anda dapat mengubah Judul Situs, Logo Situs, Mata Uang, Zona Waktu, Akses Staf, Format Tanggal, dan Warna Tema dari pengaturan umum</p>
+            <h2><strong>Profil pengguna</strong></h2>
+            <p>Anda dapat memperbarui info profil pengguna dari modul ini</p>
+            <h2><strong>Pengaturan POS</strong></h2>
+            <p>Anda dapat mengatur pengaturan POS Anda sendiri dari modul ini. Anda dapat mengatur pelanggan default, biller, gudang dan berapa banyak produk Unggulan yang akan ditampilkan di modul POS. Anda harus mengatur kunci publik dan pribadi 
+                <strong>Stripe Anda untuk Pembayaran Kartu Kredit </strong> Untuk menerapkan pembayaran dengan <strong>Paypal</strong> Anda harus membeli api langsung dari Paypal. Anda juga perlu mengisi informasi berikut.
+            </p>
+            <p>
+                <img alt="" src="assets/images/pos1.png">
+            </p>
+            <h2><strong>HRM Setting</strong></h2>
+            <p>Anda dapat mengatur waktu CheckIn dan CheckOut default di Pengaturan HRM.</p>
+            <h2><strong>SMS Setting</strong></h2>
+            <p>Anda dapat menggunakan layanan Bulk SMS melalui <strong>Twilio</strong> dan <strong>Clickatell</strong>. Anda hanya perlu mengisi informasi dengan benar untuk mengaktifkan layanan ini. <strong>Harap berikan kode negara untuk mengirim sms.</strong></p>
+        </section>
+        <section id="translation">
+            <div class="page-header">
+                <h3>TERJEMAHAN</h3>
+                <hr class="notop">
+            </div>
+            <p>Saat ini perangkat lunak ini didukung dalam 4 bahasa.</p>
+            <ul>
+                <li>Bahasa Indonesia</li>
+                <li>English</li>
+                <li>Arabic</li>
+                <li>Simplified Chinese</li>
+            </ul>
+            <p>Kami berharap di masa mendatang perangkat lunak ini akan didukung dalam lebih banyak bahasa lain. Anda dapat mengonversi perangkat lunak ini dalam bahasa pilihan Anda hanya dengan mengubah opsi bahasa.</p>
+            <p>
+                <img alt="" src="assets/images/translation.png">
+            </p>
+            <p>Jika Anda tidak puas dengan terjemahan kami, buka sumber daya/lang dan buka folder bahasa yang Anda inginkan dan edit file.php.</p>
+        </section>
+        <section id="video_tutorial">
+            <div class="page-header">
+                <h3>VIDEO TUTORIAL</h3>
+                <hr class="notop">
+            </div>
+            <p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLsh7QWvPhxo4_hu-i3B-0VEgy7oGM0ReH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </section>
+        <section id="support">
+            <div class="page-header">
+                <h3>SUPPORT</h3>
+                <hr class="notop">
+            </div>
+            <p>Kami dengan senang hati memberikan dukungan untuk masalah apa pun dalam perangkat lunak kami. Kami juga menyediakan layanan kustomisasi hanya dengan $15/jam. Jadi jika Anda memiliki fitur dalam pikiran atau saran, jangan ragu untuk menghubungi kami di <a href="https://kayo45.com/support"><strong>Support</strong></a>. Harap perhatikan bahwa kami tidak memberikan dukungan melalui cara lain (contoh- whatsapp, komentar, dll.). Jadi, tolong jangan mengomentari pertanyaan Anda di tempat lain.</p>
+            <p>Juga, jika ada kesalahan/bug/masalah pada instalasi Anda, silakan hubungi kami dengan detail hosting Anda (url, nama pengguna, kata sandi), akses admin perangkat lunak (url, nama pengguna, kata sandi) dan kode pembelian. Jika periode dukungan Anda telah kedaluwarsa, harap perbarui dukungan di codecanyon sebelum menghubungi kami untuk mendapatkan dukungan.</p>
+            <p>Terima kasih dan salam sukses dari <a href="http://kayo45.com">KAYO XLV</a></p>
+        </section>
+    </div>
+    <script type="text/javascript">
+    	$("#documenter_sidebar").mCustomScrollbar({
+            theme: "dark",
+            scrollInertia: 200
+        });
+    </script>
+</body>
+
+</html>
