@@ -171,6 +171,14 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::post('delivery/deletebyselection', 'DeliveryController@deleteBySelection');
 	Route::post('delivery/delete/{id}', 'DeliveryController@delete')->name('delivery.delete');
 
+    Route::get('olshop', 'OlshopController@index')->name('olshop.index');
+    Route::get('olshop/create', 'OlshopController@create')->name('olshop.create');
+	Route::post('olshop/store', 'OlshopController@store')->name('olshop.store');
+    Route::get('olshop/{id}/edit', 'OlshopController@edit');
+	Route::post('olshop/update', 'OlshopController@update')->name('olshop.update');
+	Route::post('olshop/deletebyselection', 'OlshopController@deleteBySelection');
+	Route::post('olshop/delete/{id}', 'OlshopController@delete')->name('olshop.delete');
+
 	Route::post('quotations/quotation-data', 'QuotationController@quotationData')->name('quotations.data');
 	Route::get('quotations/product_quotation/{id}','QuotationController@productQuotationData');
 	Route::get('quotations/lims_product_search', 'QuotationController@limsProductSearch')->name('product_quotation.search');
@@ -291,7 +299,7 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 
 	Route::get('setting/general_setting', 'SettingController@generalSetting')->name('setting.general');
 	Route::post('setting/general_setting_store', 'SettingController@generalSettingStore')->name('setting.generalStore');
-	
+
 	Route::get('setting/reward-point-setting', 'SettingController@rewardPointSetting')->name('setting.rewardPoint');
 	Route::post('setting/reward-point-setting_store', 'SettingController@rewardPointSettingStore')->name('setting.rewardPointStore');
 
