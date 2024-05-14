@@ -13,13 +13,27 @@ use App\ProductVariant;
 use App\ProductBatch;
 use App\Delivery;
 use App\PosSetting;
+use App\Olshop;
+use App\OlshopDetail;
+use App\Import\BarangImport;
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
-use Auth;
+
 use App\Mail\DeliveryDetails;
 use App\Mail\DeliveryChallan;
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Input;
+use File;
+use Redirect;
+use Excel;
+use DB;
+use PDF;
 use Mail;
+use Auth;
 
 class OlshopController extends Controller
 {
@@ -68,7 +82,7 @@ class OlshopController extends Controller
                 'options', 'numberOfInvoice'));
     }
 
-    public function store(Request $request)
+    public function store2(Request $request)
     {
         $data = $request->except('file');
         $delivery = Delivery::firstOrNew(['reference_no' => $data['reference_no'] ]);
@@ -109,102 +123,84 @@ class OlshopController extends Controller
         return redirect('delivery')->with('message', $message);
     }
 
-    public function productDeliveryData($id)
-    {
-        $lims_delivery_data = Delivery::find($id);
-        //return 'madarchod';
-        $lims_product_sale_data = Product_Sale::where('sale_id', $lims_delivery_data->sale->id)->get();
-
-        foreach ($lims_product_sale_data as $key => $product_sale_data) {
-            $product = Product::select('name', 'code')->find($product_sale_data->product_id);
-            if($product_sale_data->variant_id) {
-                $lims_product_variant_data = ProductVariant::select('item_code')->FindExactProduct($product_sale_data->product_id, $product_sale_data->variant_id)->first();
-                $product->code = $lims_product_variant_data->item_code;
-            }
-            if($product_sale_data->product_batch_id) {
-                $product_batch_data = ProductBatch::select('batch_no', 'expired_date')->find($product_sale_data->product_batch_id);
-                if($product_batch_data) {
-                    $batch_no = $product_batch_data->batch_no;
-                    $expired_date = date(config('date_format'), strtotime($product_batch_data->expired_date));
-                }
-            }
-            else {
-                $batch_no = 'N/A';
-                $expired_date = 'N/A';
-            }
-            $product_sale[0][$key] = $product->code;
-            $product_sale[1][$key] = $product->name;
-            $product_sale[2][$key] = $batch_no;
-            $product_sale[3][$key] = $expired_date;
-            $product_sale[4][$key] = $product_sale_data->qty;
-        }
-        return $product_sale;
-    }
-
-    public function edit($id)
-    {
-        $lims_delivery_data = Delivery::find($id);
-        $customer_sale = DB::table('sales')->join('customers', 'sales.customer_id', '=', 'customers.id')->where('sales.id', $lims_delivery_data->sale_id)->select('sales.reference_no','customers.name')->get();
-
-        $delivery_data[] = $lims_delivery_data->reference_no;
-        $delivery_data[] = $customer_sale[0]->reference_no;
-        $delivery_data[] = $lims_delivery_data->status;
-        $delivery_data[] = $lims_delivery_data->delivered_by;
-        $delivery_data[] = $lims_delivery_data->recieved_by;
-        $delivery_data[] = $customer_sale[0]->name;
-        $delivery_data[] = $lims_delivery_data->address;
-        $delivery_data[] = $lims_delivery_data->note;
-        return $delivery_data;
-    }
-
-    public function update(Request $request)
-    {
-        $input = $request->except('file');
-        //return $input;
-        $lims_delivery_data = Delivery::find($input['delivery_id']);
-        $document = $request->file;
-        if ($document) {
-            $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
-            $documentName = $input['reference_no'] . '.' . $ext;
-            $document->move('public/documents/delivery', $documentName);
-            $input['file'] = $documentName;
-        }
-        $lims_delivery_data->update($input);
-        $lims_sale_data = Sale::find($lims_delivery_data->sale_id);
-        $lims_customer_data = Customer::find($lims_sale_data->customer_id);
-        $message = 'Delivery updated successfully';
-        if($lims_customer_data->email && $input['status'] != 1){
-            $mail_data['email'] = $lims_customer_data->email;
-            $mail_data['customer'] = $lims_customer_data->name;
-            $mail_data['sale_reference'] = $lims_sale_data->reference_no;
-            $mail_data['delivery_reference'] = $lims_delivery_data->reference_no;
-            $mail_data['status'] = $input['status'];
-            $mail_data['address'] = $input['address'];
-            $mail_data['delivered_by'] = $input['delivered_by'];
-            try{
-                Mail::to($mail_data['email'])->send(new DeliveryDetails($mail_data));
-            }
-            catch(\Exception $e){
-                $message = 'Delivery updated successfully. Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
-            }
-        }
-        return redirect('delivery')->with('message', $message);
-    }
 
     public function deleteBySelection(Request $request)
     {
         $delivery_id = $request['deliveryIdArray'];
         foreach ($delivery_id as $id) {
-            $lims_delivery_data = Delivery::find($id);
-            $lims_delivery_data->delete();
+            $olshop_data = Delivery::find($id);
+            $olshop_data->delete();
         }
         return 'Delivery deleted successfully';
     }
 
     public function delete($id)
     {
-        $lims_delivery_data = Delivery::find($id);
-        $lims_delivery_data->delete();
-        return redirect('delivery')->with('not_permitted', 'Delivery deleted successfully');
+        $olshop_data = Delivery::find($id);
+        $olshop_data->delete();
+        return redirect('olshop')->with('not_permitted', 'Delivery deleted successfully');
+    }
+
+
+    public function store(Request $request)
+    {
+
+        $biller = Auth::id();
+        $gudang = request('warehouse_id');
+        $file   = $request->file('excel_upload');
+
+
+        $array= Excel::toArray(new BarangImport, $file);
+
+        $data = [];
+        foreach($array as $key => $val){
+
+            foreach ($val as $key2 => $val2){
+
+                // if(isset($val2['jenis'])){
+                //     $slug_jenis = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $val2['jenis'])));
+                //     $jenis_data = JenisBarangModel::firstOrCreate(['jenisbarang_nama' => $val2['jenis'], 'jenisbarang_slug' => $slug_jenis, 'jenisbarang_ket' => '']);
+                //     $jenis_id   = $jenis_data->jenisbarang_id;
+                // }else{
+                //     $jenis_id = null;
+                // }
+
+                // dd($val2);
+
+
+                $product        = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                $no_resi        = $val2['no_resi'];
+                $no_pesanan     = $val2['no_pesanan'];
+
+                // dd($no_resi, $no_pesanan);
+
+
+                if(!empty($no_pesanan)){
+                    $random = Str::random(13);
+                    $codeTrn    = 'TRN-'.$random;
+                    // $dataOlshop = array(
+                    //     'reference_no' =>  $no_pesanan,
+                    //     'user_id'      => $biller,
+                    //     'warehouse_id' => $gudang
+                    // );
+
+                    $olshop                    = Olshop::firstorNew();
+                    $olshop->reference_no      = $no_pesanan;
+                    $olshop->user_id           = $biller;
+                    $olshop->warehouse_id      = $gudang;
+                    $olshop->save();
+                    dd($olshop);
+                }
+
+
+
+
+            }
+        }
+
+
+        // Excel::import(new AdjustmentStokExcelImport, $request->file('file'));
+
+        return redirect('admin/barang')->with('create_message', 'Product imported successfully');
     }
 }
