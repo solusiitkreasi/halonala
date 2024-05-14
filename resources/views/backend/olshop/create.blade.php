@@ -102,6 +102,7 @@
 <script type="text/javascript">
 var timer;
 var tableOlshop;
+var oFileIn;
 
 $(document).ready(function() {
     $("ul#sale").siblings('a').attr('aria-expanded','true');
@@ -132,7 +133,140 @@ $(document).ready(function() {
 
 });
 
-    var oFileIn;
+    /* Create Fuction input event */
+    function createEvent(kd_brg) {
+        /* restrict text input number only */
+        var input_qty;
+        $('#qty_' + kd_brg).keypress(function(event) {
+            var kd_brg = $(this).attr('data-barang');
+            var keycode = event.which;
+            if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || (keycode >= 48 && keycode <= 57)))) {
+                event.preventDefault();
+            }
+            input_qty = this.value;
+
+        });
+        /* Count barang yang diinput */
+        $('#qty_' + kd_brg).keyup(function(event) {
+            var qty = this.value;
+            if (qty == '') qty = 0;
+
+            var keycode = event.which;
+            if (keycode == 13) {
+                    saveTempData($('#urut_' + kd_brg).val(), kd_brg);
+                    loadTempData();
+                    // console.log('#ket_'+kd_brg);
+                    clearTimeout(timer);
+                    timer = setTimeout(function(event) {
+                        $('#ket_' + kd_brg).focus();
+                    }, 100); //Delay 1 second
+            }
+        });
+
+
+    }
+
+    /* Save Temp Data */
+    function saveTempData(no_urut, kd_brg) {
+        var urut = $('input[name="kd_brg[]"]').length;
+        var data = {
+            kd_doc_trans: kd_doc_temp,
+            urut: no_urut,
+            kd_brg: kd_brg,
+            qty: $('#qty_' + kd_brg).val(),
+        }
+            data.ket = $('#ket_' + kd_brg).val();
+        $.ajax({
+            url: "saveTempData",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function(response) {}
+        });
+        return false;
+
+    }
+
+    /* Delete Row Data */
+    function deleteRow(no_urut, kd_brg) {
+        tableListBKB.row(no_urut - 1).remove().draw();
+        deleteTempData(kd_brg);
+
+        clearTimeout(timer);
+        timer = setTimeout(function(event) {
+            var no_urut = 1;
+            $("input[name='kd_brg[]']").each(function() {
+                saveTempData(no_urut, $(this).val());
+                no_urut++;
+            });
+            loadTempData();
+        }, 100); //Delay 1 second
+        subAmount();
+    }
+
+    /* Delete Temp Data */
+    function deleteTempData(kd_brg) {
+        var data = {
+            kd_doc_trans: kd_doc_temp,
+            kd_brg: kd_brg,
+        }
+        if ($('#jenis_gudang').val() != 'N') {
+            data.kd_jenis_rusak = $('#kd_jenis_rusak_' + kd_brg).val();
+        }
+        $.ajax({
+            url: "deleteTempData",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function(response) {}
+        });
+    }
+
+    /* Load Temp Data */
+    function loadTempData() {
+        var data = {
+            kd_doc_trans: kd_doc_temp,
+        }
+        clearTimeout(timer);
+        timer = setTimeout(function(event) {
+            $.ajax({
+                url: "fetchDataTemp",
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success === true) {
+                        // response success
+                        /* Set Data Temp */
+                        tableListBKB.clear().draw();
+                        $.each(response.data, function(index, value) {
+                            var urut = $('input[name="kd_brg[]"]').length + 1;
+                                var index = $('#tableListBKB').DataTable().row.add([
+                                    "<input value='" + urut + "' type='hidden' name='urut[]' id='urut_" + value['kd_brg'] + "'/>" + urut,
+                                    "<input  value='" + value['kd_brg'] + "'type='hidden' name='kd_brg[]' id='" + value['kd_brg'] + "' class='form-control' style='width:100%'/>" + value['kd_brg'],
+                                    "<input  value='" + value['nm_barang'] + "' type='hidden' name='nm_barang[]' id='" + value['kd_brg'] + "' class='form-control' style='width:100%'/>" + value['nm_barang'] ,
+                                    "<input value='" + value['stok'] + "' type='hidden' name='max_qty[]' id='max_qty_" + value['kd_brg'] + "' class='form-control' style='width:100%'  autocomplete='off'/>" +
+                                    "<input value='" + value['jb'] + "' type='number' name='qty[]' id='qty_" + value['kd_brg'] + "' data-max-qty='"+value['stok']+"' class='form-control qty' style='width:100%'   autocomplete='off'/>",
+                                    "<input value='" + value['ket'] + "' type='text' name='ket[]' id='ket_" + value['kd_brg'] + "' class='form-control' style='width:100%'  autocomplete='off'/>",
+                                    '<button type="button" class="btn btn-danger" onclick="deleteRow(\'' + urut + '\',\'' + value['kd_brg'] + '\')"><i class="fa fa-trash"></i></button>',
+                                ]).draw(false);
+                            createEvent(value['kd_brg']);
+                        });
+                        /* End Set Data Temp */
+                    } else {
+                        // response failed
+                        $('#btn-information').removeAttr('href');
+                        $('#btn-information').attr('data-dismiss', 'modal');
+                        $("#messages-alert").html('<div class="alert alert-warning alert-dismissible" role="alert">' +
+                            '<strong> <span class="glyphicon glyphicon-exclamation-sign"></span> </strong>' + response.messages +
+                            '</div>');
+                        $("#modalAlert").modal();
+                    }
+                }
+            });
+        }, 100); //Delay 1 second
+
+    }
 
     $(function() {
         oFileIn = document.getElementById('excel_upload');
