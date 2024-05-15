@@ -41,16 +41,10 @@ class OlshopController extends Controller
 
     public function index()
     {
-        $role = Role::find(Auth::user()->role_id);
-        if($role->hasPermissionTo('delivery')) {
-            if(Auth::user()->role_id > 2 && config('staff_access') == 'own')
-                $lims_olshop_all = Delivery::orderBy('id', 'desc')->where('user_id', Auth::id())->get();
-            else
-                $lims_olshop_all = Delivery::orderBy('id', 'desc')->get();
-            return view('backend.olshop.index', compact('lims_olshop_all'));
-        }
-        else
-            return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
+
+        $lims_olshop_all = OlshopDetail::orderBy('created_at', 'desc')->get();
+        return view('backend.olshop.index', compact('lims_olshop_all'));
+
     }
 
     public function create(){

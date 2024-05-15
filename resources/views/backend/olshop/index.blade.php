@@ -15,16 +15,29 @@
             <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>No. Trn</th>
                     <th>{{trans('file.Delivery Reference')}}</th>
                     <th>{{trans('file.Sale Reference')}}</th>
                     <th>{{trans('file.Products')}}</th>
-                    <th>{{trans('file.Jumlah')}}</th>
-                    <th>{{trans('file.Status')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
+                    <th>Jumlah</th>
+                    <th class="not-exported"></th>
+                    <th class="not-exported"></th>
                 </tr>
             </thead>
             <tbody>
+                @foreach($lims_olshop_all as $key=>$val)
+                @php
+                    $product = \App\Product::find($val->product_id);
+                @endphp
+                <tr data-id="{{$val->id_detail}}">
+                    <td></td>
+                    <td>{{$val->no_resi}}</td>
+                    <td>{{$val->no_pesanan}}</td>
+                    <td>{{$product->name}}</td>
+                    <td>{{$val->qty}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
