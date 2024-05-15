@@ -1,9 +1,9 @@
 @extends('backend.layout.main') @section('content')
 @if(session()->has('message'))
-  <div class="alert alert-success alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{!! session()->get('message') !!}</div>
+    <div class="alert alert-success alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{!! session()->get('message') !!}</div>
 @endif
 @if(session()->has('not_permitted'))
-  <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div>
+    <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div>
 @endif
 
 <section>
@@ -15,77 +15,16 @@
             <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>No. Transaksi</th>
+                    <th>No. Trn</th>
                     <th>{{trans('file.Delivery Reference')}}</th>
                     <th>{{trans('file.Sale Reference')}}</th>
-                    <th>{{trans('file.customer')}}</th>
-                    <th>{{trans('file.Address')}}</th>
                     <th>{{trans('file.Products')}}</th>
-                    <th>{{trans('file.grand total')}}</th>
+                    <th>{{trans('file.Jumlah')}}</th>
                     <th>{{trans('file.Status')}}</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($lims_olshop_all as $key=>$olshop)
-                <?php
-                    $customer_sale = DB::table('sales')
-                                    ->join('customers', 'sales.customer_id', '=', 'customers.id')
-                                    ->where('sales.id', $olshop->sale_id)
-                                    ->select('sales.reference_no','customers.name', 'customers.phone_number', 'customers.city', 'sales.grand_total')
-                                    ->get();
-                    $product_names = DB::table('sales')
-                                        ->join('product_sales', 'sales.id', '=', 'product_sales.sale_id')
-                                        ->join('products', 'products.id', '=', 'product_sales.product_id')
-                                        ->where('sales.id', $olshop->sale_id)
-                                        ->pluck('products.name')
-                                        ->toArray();
-
-                    if($olshop->status == 1)
-                        $status = trans('file.Packing');
-                    elseif($olshop->status == 2)
-                        $status = trans('file.Delivering');
-                    else
-                        $status = trans('file.Delivered');
-
-                    $barcode = \DNS2D::getBarcodePNG($olshop->reference_no, 'QRCODE');
-                ?>
-                <tr class="olshop-link" data-barcode="{{$barcode}}" data-olshop='["{{date($general_setting->date_format, strtotime($olshop->created_at->toDateString()))}}", "{{$olshop->reference_no}}", "{{$olshop->sale->reference_no}}", "{{$status}}", "{{$olshop->id}}", "{{$olshop->sale->customer->name}}", "{{$olshop->sale->customer->phone_number}}", "{{$olshop->sale->customer->address}}", "{{$olshop->sale->customer->city}}", "{{$olshop->note}}", "{{$olshop->user->name}}", "{{$olshop->delivered_by}}", "{{$olshop->recieved_by}}"]'>
-                    <td>{{$key}}</td>
-                    <td>{{ $olshop->reference_no }}</td>
-                    <td>{{ $customer_sale[0]->reference_no }}</td>
-                    <td>{!!$customer_sale[0]->name .'<br>'. $customer_sale[0]->phone_number!!}</td>
-                    <td>{{ $olshop->address }}</td>
-                    <td>{{implode(",", $product_names)}}</td>
-                    <td>{{number_format($customer_sale[0]->grand_total, 2)}}</td>
-                    @if($olshop->status == 1)
-                    <td><div class="badge badge-info">{{$status}}</div></td>
-                    @elseif($olshop->status == 2)
-                    <td><div class="badge badge-primary">{{$status}}</div></td>
-                    @else
-                    <td><div class="badge badge-success">{{$status}}</div></td>
-                    @endif
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{trans('file.action')}}
-                              <span class="caret"></span>
-                              <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
-                                <li>
-                                    <button type="button" data-id="{{$olshop->id}}" class="open-EditCategoryDialog btn btn-link"><i class="dripicons-document-edit"></i> {{trans('file.edit')}}</button>
-                                </li>
-                                <li class="divider"></li>
-                                {{ Form::open(['route' => ['olshop.delete', $olshop->id], 'method' => 'post'] ) }}
-                                <li>
-                                  <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> {{trans('file.delete')}}</button>
-                                </li>
-                                {{ Form::close() }}
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
             </tbody>
         </table>
     </div>

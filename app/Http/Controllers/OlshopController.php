@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Product_Warehouse;
 use App\Warehouse;
 use App\Biller;
 use App\Sale;
@@ -82,46 +83,6 @@ class OlshopController extends Controller
                 'options', 'numberOfInvoice'));
     }
 
-    public function store2(Request $request)
-    {
-        $data = $request->except('file');
-        $delivery = Delivery::firstOrNew(['reference_no' => $data['reference_no'] ]);
-        $document = $request->file;
-        if ($document) {
-            $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
-            $documentName = $data['reference_no'] . '.' . $ext;
-            $document->move('public/documents/delivery', $documentName);
-            $delivery->file = $documentName;
-        }
-        $delivery->sale_id = $data['sale_id'];
-        $delivery->user_id = Auth::id();
-        $delivery->address = $data['address'];
-        $delivery->delivered_by = $data['delivered_by'];
-        $delivery->recieved_by = $data['recieved_by'];
-        $delivery->status = $data['status'];
-        $delivery->note = $data['note'];
-        $delivery->save();
-        $lims_sale_data = Sale::find($data['sale_id']);
-        $lims_customer_data = Customer::find($lims_sale_data->customer_id);
-        $message = 'Delivery created successfully';
-        if($lims_customer_data->email && $data['status'] != 1){
-            $mail_data['email'] = $lims_customer_data->email;
-            $mail_data['customer'] = $lims_customer_data->name;
-            $mail_data['sale_reference'] = $lims_sale_data->reference_no;
-            $mail_data['delivery_reference'] = $delivery->reference_no;
-            $mail_data['status'] = $data['status'];
-            $mail_data['address'] = $data['address'];
-            $mail_data['delivered_by'] = $data['delivered_by'];
-            //return $mail_data;
-            try{
-                Mail::to($mail_data['email'])->send(new DeliveryDetails($mail_data));
-            }
-            catch(\Exception $e){
-                $message = 'Delivery created successfully. Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
-            }
-        }
-        return redirect('delivery')->with('message', $message);
-    }
 
 
     public function deleteBySelection(Request $request)
@@ -145,10 +106,12 @@ class OlshopController extends Controller
     public function store(Request $request)
     {
 
-        $biller = Auth::id();
-        $gudang = request('warehouse_id');
-        $file   = $request->file('excel_upload');
-
+        $user_id    = Auth::id();
+        $biller     = request('biller_id');
+        $gudang     = request('warehouse_id');
+        $file       = $request->file('excel_upload');
+        $random     = Str::random(13);
+        $codeTrn    = 'TRN-'.$random;
 
         $array= Excel::toArray(new BarangImport, $file);
 
@@ -156,51 +119,130 @@ class OlshopController extends Controller
         foreach($array as $key => $val){
 
             foreach ($val as $key2 => $val2){
+                #-- Olshop data
+                    # Header
+                    $olshop                             = Olshop::firstorNew([ 'no_trn' => $codeTrn ]);
+                    if(isset($olshop)){
+                        $olshop->no_trn                 = $codeTrn;
+                        $olshop->user_id                = $biller;
+                        $olshop->warehouse_id           = $gudang;
+                        $olshop->save();
+                    }
 
-                // if(isset($val2['jenis'])){
-                //     $slug_jenis = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $val2['jenis'])));
-                //     $jenis_data = JenisBarangModel::firstOrCreate(['jenisbarang_nama' => $val2['jenis'], 'jenisbarang_slug' => $slug_jenis, 'jenisbarang_ket' => '']);
-                //     $jenis_id   = $jenis_data->jenisbarang_id;
-                // }else{
-                //     $jenis_id = null;
-                // }
+                    $product        = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                    $no_resi        = $val2['no_resi'];
+                    $no_pesanan     = $val2['no_pesanan'];
+                    $jumlah         = $val2['jumlah'];
+                    $product_id     = $product['id'];
 
-                // dd($val2);
+                    # Detail
+                    $olshopDetail['olshop_id']         = $olshop->id;
+                    $olshopDetail['product_id']        = $product_id;
+                    $olshopDetail['no_resi']           = $no_resi;
+                    $olshopDetail['no_pesanan']        = $no_pesanan;
+                    $olshopDetail['qty']               = $jumlah;
+                    if (!empty($olshopDetail['product_id'] )){
+                        OlshopDetail::create($olshopDetail);
+                    }
+                #-- End Olshop data
+
+                #-- Penjualan data
+                    # Header
+                    $reference_no   = $val2['no_pesanan'];
+                    $penjualan      = Sale::firstorNew(['reference_no' => $reference_no]);
+                    if (!empty($olshopDetail['product_id'] )){
+                        if(isset($penjualan)){
+                            $penjualan->reference_no           = $reference_no;
+                            $penjualan->user_id                = $user_id;
+                            $penjualan->customer_id            = '1';
+                            $penjualan->warehouse_id           = $gudang;
+                            $penjualan->biller_id              = $biller;
+                            $penjualan->item                   = '1';
+                            $penjualan->total_qty              = '1';
+                            $penjualan->total_discount         = '0';
+                            $penjualan->total_tax              = '0';
+                            $penjualan->total_price            = '0';
+                            $penjualan->grand_total            = '0';
+                            $penjualan->sale_status            = '1';
+                            $penjualan->payment_status         = '4';
+                            $penjualan->sale_note              = 'Import Excel Olshop';
+                            $penjualan->save();
+
+                            $delivery               = Delivery::firstorNew(['reference_no' => $reference_no]);
+                            $delivery->reference_no     = $reference_no;
+                            $delivery->sale_id          = $penjualan->id;
+                            $delivery->user_id          = $user_id;
+                            $delivery->address          = '';
+                            $delivery->delivery_by      = '';
+                            $delivery->received_by      = '';
+                            $delivery->file             = '';
+                            $delivery->note             = 'Import Excel Olshop';
+                            $delivery->save();
+                        }
+
+                        $productBatch        = ProductBatch::where('product_id',$product_id)->first();
+                        $productVariant      = ProductVariant::where('product_id',$product_id)->first();
 
 
-                $product        = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
-                $no_resi        = $val2['no_resi'];
-                $no_pesanan     = $val2['no_pesanan'];
+                        if(!empty($productBatch)){
+                            $productBatchId      = $productBatch['id'];
+                        }else{
+                            $productBatchId      = '';
+                        }
 
-                // dd($no_resi, $no_pesanan);
+                        if(!empty($productVariant)){
+                            $variant_id          = $productVariant['variant_id'];
+                        }else{
+                            $variant_id          = null;
+                        }
 
+                        # Detail
+                        $penjualanDetail['sale_id']           = $penjualan->id;
+                        $penjualanDetail['sale_unit_id']      = '1';
+                        $penjualanDetail['product_id']        = $product_id;
+                        $penjualanDetail['product_batch_id']  = $productBatchId;
+                        $penjualanDetail['variant_id']        = $variant_id;
+                        $penjualanDetail['qty']               = $jumlah;
+                        $penjualanDetail['net_unit_price']    = '0';
+                        $penjualanDetail['discount']    = '0';
+                        $penjualanDetail['tax_rate']    = '0';
+                        $penjualanDetail['tax']    = '0';
+                        $penjualanDetail['total']    = '0';
+                        Product_Sale::create($penjualanDetail);
+                    }
+                #-- End Penjualan data
 
-                if(!empty($no_pesanan)){
-                    $random = Str::random(13);
-                    $codeTrn    = 'TRN-'.$random;
-                    // $dataOlshop = array(
-                    //     'reference_no' =>  $no_pesanan,
-                    //     'user_id'      => $biller,
-                    //     'warehouse_id' => $gudang
-                    // );
+                #-- Warehouse potong stok
+                    # Data
+                    $product_data       = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                    $product_data_id    = $product_data['id'];
+                    if (!empty($product_data_id)){
 
-                    $olshop                    = Olshop::firstorNew();
-                    $olshop->reference_no      = $no_pesanan;
-                    $olshop->user_id           = $biller;
-                    $olshop->warehouse_id      = $gudang;
-                    $olshop->save();
-                    dd($olshop);
-                }
-
-
-
-
+                        $product_data->qty = $product_data->qty - $jumlah;
+                        //deduct product variant quantity if exist
+                        if($variant_id) {
+                            $product_variant_data->qty -= $jumlah;
+                            $product_variant_data->save();
+                            $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $variant_id, $gudang)->first();
+                        }elseif($productBatchId){
+                            $product_warehouse_data = Product_Warehouse::where([
+                                ['product_batch_id', $productBatchId ],
+                                ['warehouse_id', $gudang ]
+                            ])->first();
+                            $lims_product_batch_data = ProductBatch::find($productBatchId);
+                            //deduct product batch quantity
+                            $lims_product_batch_data->qty -= $jumlah;
+                            $lims_product_batch_data->save();
+                        }else{
+                            $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
+                        }
+                        //deduct quantity from warehouse
+                        $product_warehouse_data->qty -= $jumlah;
+                        $product_warehouse_data->save();
+                    }
             }
         }
 
-
-        // Excel::import(new AdjustmentStokExcelImport, $request->file('file'));
-
-        return redirect('admin/barang')->with('create_message', 'Product imported successfully');
+        return redirect('olshop')->with('message', 'Product imported successfully');
     }
 }

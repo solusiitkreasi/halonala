@@ -11,7 +11,7 @@ class Olshop extends Model
     protected $table = "olshop";
     protected $primaryKey = 'id';
     protected $fillable = [
-        'reference_no',
+        'no_trn',
         'user_id',
         'warehouse_id',
     ];

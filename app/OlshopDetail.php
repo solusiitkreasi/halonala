@@ -14,6 +14,7 @@ class OlshopDetail extends Model
         'olshop_id',
         'product_id',
         'no_resi',
+        'no_pesanan',
         'qty'
     ];
 }
