@@ -124,10 +124,12 @@ class OlshopController extends Controller
                     }
 
                     $product        = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+
                     $no_resi        = $val2['no_resi'];
                     $no_pesanan     = $val2['no_pesanan'];
                     $jumlah         = $val2['jumlah'];
                     $product_id     = $product['id'];
+
 
                     # Detail
                     $olshopDetail['olshop_id']         = $olshop->id;
@@ -213,34 +215,49 @@ class OlshopController extends Controller
 
                 #-- Warehouse potong stok
                     # Data
-                    $product_data       = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                    $product_data       = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]); //firstOrNew([ 'name' => $val2['nama_produk'] ]);
                     $product_data_id    = $product_data['id'];
+
                     if (!empty($product_data_id)){
 
                         //deduct product variant quantity if exist
                         if($variant_id) {
-                            $product_variant_data = ProductVariant::where('variant_id',$variant_id)->first();
-
+                            $product_variant_data = ProductVariant::where('item_code','LIKE',"%{$val2['nama_variasi']}%")->first();
+                            //deduct product variant quantity
                             $product_variant_data->qty -= $jumlah;
                             $product_variant_data->save();
-                            $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $variant_id, $gudang)->first();
+
+                            $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $product_variant_data->variant_id, $gudang)->first();
+                            //deduct quantity from warehouse
+                            $product_warehouse_data->qty -=  $jumlah;
+                            $product_warehouse_data->save();
                         }elseif($productBatchId){
                             $product_warehouse_data = Product_Warehouse::where([
+                                ['product_id', $product_data_id],
                                 ['product_batch_id', $productBatchId ],
                                 ['warehouse_id', $gudang ]
                             ])->first();
-                            $lims_product_batch_data = ProductBatch::find($productBatchId);
+
+                            $product_batch_data = ProductBatch::find($productBatchId);
                             //deduct product batch quantity
-                            $lims_product_batch_data->qty -= $jumlah;
-                            $lims_product_batch_data->save();
+                            $product_batch_data->qty -= $jumlah;
+                            $product_batch_data->save();
+
+                            //deduct quantity from warehouse
+                            if(isset($product_warehouse_data->qty))
+                                $product_warehouse_data->qty -= $jumlah;
+                                $product_warehouse_data->save();
+
                         }else{
                             $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
-                        }
-                        //deduct quantity from warehouse
-                        $product_warehouse_data->qty -= $val2['jumlah'];
-                        $product_warehouse_data->save();
+                            // dd($product_warehouse_data);
 
-                        $product_data['qty'] -= $val2['jumlah'];
+                            //deduct quantity from warehouse
+                            $product_warehouse_data->qty -= $jumlah;
+                            $product_warehouse_data->save();
+                        }
+
+                        $product_data->qty -= $jumlah;
                         $product_data->save();
                     }
             }
