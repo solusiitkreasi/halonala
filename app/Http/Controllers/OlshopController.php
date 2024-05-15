@@ -167,18 +167,6 @@ class OlshopController extends Controller
                             $penjualan->payment_status         = '4';
                             $penjualan->sale_note              = 'Import Excel Olshop';
                             $penjualan->save();
-
-                            $delivery                   = Delivery::firstorNew(['reference_no' => $reference_no]);
-                            $delivery->reference_no     = $reference_no;
-                            $delivery->sale_id          = $penjualan->id;
-                            $delivery->user_id          = $user_id;
-                            $delivery->address          = '';
-                            $delivery->delivered_by     = '';
-                            $delivery->recieved_by      = '';
-                            $delivery->file             = '';
-                            $delivery->note             = 'Import Excel Olshop';
-                            $delivery->status           = '2';
-                            $delivery->save();
                         }
 
                         $productBatch        = ProductBatch::where('product_id',$product_id)->first();
@@ -212,6 +200,18 @@ class OlshopController extends Controller
                         Product_Sale::create($penjualanDetail);
                     }
                 #-- End Penjualan data
+
+                $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
+                $delivery->reference_no     = $no_resi;
+                $delivery->sale_id          = $penjualan->id;
+                $delivery->user_id          = $user_id;
+                $delivery->address          = $val2['alamat_pengiriman'];
+                $delivery->delivered_by     = $val2['opsi_pengiriman'];
+                $delivery->recieved_by      = $val2['nama'];
+                $delivery->file             = '';
+                $delivery->note             = 'Import Excel Olshop';
+                $delivery->status           = '3';
+                $delivery->save();
 
                 #-- Warehouse potong stok
                     # Data
