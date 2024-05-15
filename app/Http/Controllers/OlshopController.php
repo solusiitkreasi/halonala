@@ -167,16 +167,17 @@ class OlshopController extends Controller
                             $penjualan->payment_status         = '4';
                             $penjualan->sale_note              = 'Import Excel Olshop';
                             $penjualan->save();
+
+
                         }
 
                         $productBatch        = ProductBatch::where('product_id',$product_id)->first();
                         $productVariant      = ProductVariant::where('product_id',$product_id)->first();
 
-
                         if(!empty($productBatch)){
                             $productBatchId      = $productBatch['id'];
                         }else{
-                            $productBatchId      = '';
+                            $productBatchId      = null;
                         }
 
                         if(!empty($productVariant)){
@@ -184,6 +185,8 @@ class OlshopController extends Controller
                         }else{
                             $variant_id          = null;
                         }
+
+
 
                         # Detail
                         $penjualanDetail['sale_id']           = $penjualan->id;
@@ -198,20 +201,21 @@ class OlshopController extends Controller
                         $penjualanDetail['tax']    = '0';
                         $penjualanDetail['total']    = '0';
                         Product_Sale::create($penjualanDetail);
+
+                        $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
+                        $delivery->reference_no     = $no_resi;
+                        $delivery->sale_id          = $penjualan->id;
+                        $delivery->user_id          = $user_id;
+                        $delivery->address          = $val2['alamat_pengiriman'];
+                        $delivery->delivered_by     = $val2['opsi_pengiriman'];
+                        $delivery->recieved_by      = $val2['nama'];
+                        $delivery->file             = '';
+                        $delivery->note             = 'Import Excel Olshop';
+                        $delivery->status           = '3';
+                        $delivery->save();
                     }
                 #-- End Penjualan data
 
-                $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
-                $delivery->reference_no     = $no_resi;
-                $delivery->sale_id          = $penjualan->id;
-                $delivery->user_id          = $user_id;
-                $delivery->address          = $val2['alamat_pengiriman'];
-                $delivery->delivered_by     = $val2['opsi_pengiriman'];
-                $delivery->recieved_by      = $val2['nama'];
-                $delivery->file             = '';
-                $delivery->note             = 'Import Excel Olshop';
-                $delivery->status           = '3';
-                $delivery->save();
 
                 #-- Warehouse potong stok
                     # Data
@@ -222,6 +226,8 @@ class OlshopController extends Controller
                         $product_data->qty = $product_data->qty - $jumlah;
                         //deduct product variant quantity if exist
                         if($variant_id) {
+                            $product_variant_data = ProductVariant::where('variant_id',$variant_id)->first();
+
                             $product_variant_data->qty -= $jumlah;
                             $product_variant_data->save();
                             $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $variant_id, $gudang)->first();
