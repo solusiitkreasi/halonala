@@ -173,10 +173,11 @@ class OlshopController extends Controller
                             $delivery->sale_id          = $penjualan->id;
                             $delivery->user_id          = $user_id;
                             $delivery->address          = '';
-                            $delivery->delivery_by      = '';
-                            $delivery->received_by      = '';
+                            $delivery->delivered_by      = '';
+                            $delivery->recieved_by      = '';
                             $delivery->file             = '';
                             $delivery->note             = 'Import Excel Olshop';
+                            $delivery->status           = '2';
                             $delivery->save();
                         }
 
