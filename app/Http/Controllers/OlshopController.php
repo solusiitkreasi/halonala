@@ -217,7 +217,6 @@ class OlshopController extends Controller
                     $product_data_id    = $product_data['id'];
                     if (!empty($product_data_id)){
 
-                        $product_data->qty = $product_data->qty - $jumlah;
                         //deduct product variant quantity if exist
                         if($variant_id) {
                             $product_variant_data = ProductVariant::where('variant_id',$variant_id)->first();
@@ -238,10 +237,10 @@ class OlshopController extends Controller
                             $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
                         }
                         //deduct quantity from warehouse
-                        $product_warehouse_data->qty -= $jumlah;
+                        $product_warehouse_data->qty -= $val2['jumlah'];
                         $product_warehouse_data->save();
 
-                        $product_data['qty'] -= $jumlah;
+                        $product_data['qty'] -= $val2['jumlah'];
                         $product_data->save();
                     }
             }
