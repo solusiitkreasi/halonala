@@ -240,6 +240,9 @@ class OlshopController extends Controller
                         //deduct quantity from warehouse
                         $product_warehouse_data->qty -= $jumlah;
                         $product_warehouse_data->save();
+
+                        $product_data['qty'] -= $jumlah;
+                        $product_data->save();
                     }
             }
         }
