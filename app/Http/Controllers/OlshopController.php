@@ -228,9 +228,7 @@ class OlshopController extends Controller
                             $product_variant_data->save();
 
                             $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $product_variant_data->variant_id, $gudang)->first();
-                            //deduct quantity from warehouse
-                            $product_warehouse_data->qty -=  $jumlah;
-                            $product_warehouse_data->save();
+
                         }elseif($productBatchId){
                             $product_warehouse_data = Product_Warehouse::where([
                                 ['product_id', $product_data_id],
@@ -243,18 +241,18 @@ class OlshopController extends Controller
                             $product_batch_data->qty -= $jumlah;
                             $product_batch_data->save();
 
-                            //deduct quantity from warehouse
-                            if(isset($product_warehouse_data->qty))
-                                $product_warehouse_data->qty -= $jumlah;
-                                $product_warehouse_data->save();
 
                         }else{
                             $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
-                            // dd($product_warehouse_data);
+                        }
 
-                            //deduct quantity from warehouse
-                            $product_warehouse_data->qty -= $jumlah;
-                            $product_warehouse_data->save();
+                        //deduct quantity from warehouse
+                        if(isset($product_warehouse_data->qty)){
+                            $qty = $product_warehouse_data->qty - $jumlah;
+
+                            $product_warehouse_data->update([
+                                'qty'   => $qty,
+                            ]);
                         }
 
                         $product_data->qty -= $jumlah;
