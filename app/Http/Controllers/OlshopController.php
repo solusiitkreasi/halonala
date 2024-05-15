@@ -168,12 +168,12 @@ class OlshopController extends Controller
                             $penjualan->sale_note              = 'Import Excel Olshop';
                             $penjualan->save();
 
-                            $delivery               = Delivery::firstorNew(['reference_no' => $reference_no]);
+                            $delivery                   = Delivery::firstorNew(['reference_no' => $reference_no]);
                             $delivery->reference_no     = $reference_no;
                             $delivery->sale_id          = $penjualan->id;
                             $delivery->user_id          = $user_id;
                             $delivery->address          = '';
-                            $delivery->delivered_by      = '';
+                            $delivery->delivered_by     = '';
                             $delivery->recieved_by      = '';
                             $delivery->file             = '';
                             $delivery->note             = 'Import Excel Olshop';
