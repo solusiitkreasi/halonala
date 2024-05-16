@@ -69,7 +69,7 @@
                 content: ''; display: block;
                 page-break-after: always;
                 page-break-inside: avoid;
-                page-break-before: avoid;        
+                page-break-before: avoid;
             }*/
         }
     </style>
@@ -91,23 +91,24 @@
         </table>
         <br>
     </div>
-        
+
     <div id="receipt-data">
         <div class="centered">
-            @if($general_setting->site_logo)
-                <img src="{{url('logo', $general_setting->site_logo)}}" height="42" width="50" style="margin:10px 0;">
+            @if($lims_warehouse_data->site_logo)
+                <img src="{{url('logo', $lims_warehouse_data->site_logo)}}" height="42" width="50" style="margin:10px 0;">
             @endif
-            
+
             <h2>{{$lims_biller_data->company_name}}</h2>
-            
+
             <p>{{trans('file.Address')}}: {{$lims_warehouse_data->address}}
                 <br>{{trans('file.Phone Number')}}: {{$lims_warehouse_data->phone}}
             </p>
         </div>
         <p>{{trans('file.Date')}}: {{date($general_setting->date_format, strtotime($lims_sale_data->created_at->toDateString()))}}<br>
             {{trans('file.reference')}}: {{$lims_sale_data->reference_no}}<br>
-            {{trans('file.customer')}}: {{$lims_customer_data->name}}
-            <?php 
+            {{trans('file.customer')}}: {{$lims_customer_data->name}}<br>
+            Gudang: {{$lims_warehouse_data->name}}
+            <?php
                 foreach($sale_custom_fields as $key => $fieldName) {
                     $field_name = str_replace(" ", "_", strtolower($fieldName));
                     echo '<br>'.$fieldName.': ' . $lims_sale_data->$field_name;
@@ -117,13 +118,13 @@
                     echo '<br>'.$fieldName.': ' . $lims_customer_data->$field_name;
                 }
             ?>
-            
+
         </p>
         <table class="table-data">
             <tbody>
                 <?php $total_product_tax = 0;?>
                 @foreach($lims_product_sale_data as $key => $product_sale_data)
-                <?php 
+                <?php
                     $lims_product_data = \App\Product::find($product_sale_data->product_id);
                     if($product_sale_data->variant_id) {
                         $variant_data = \App\Variant::find($product_sale_data->variant_id);
@@ -153,7 +154,7 @@
                     <td style="text-align:right;vertical-align:bottom">{{number_format((float)($product_sale_data->total), $general_setting->decimal, ',','.')}}</td>
                 </tr>
                 @endforeach
-            
+
             <!-- <tfoot> -->
                 <tr>
                     <th colspan="2" style="text-align:left">{{trans('file.Total')}}</th>
@@ -198,21 +199,21 @@
                     <th style="text-align:right">{{number_format((float)($lims_sale_data->shipping_cost), $general_setting->decimal, ',','.')}}</th>
                 </tr>
                 @endif
-                
+
                 @if($lims_sale_data->grand_total != $lims_sale_data->total_price)
                 <tr>
                     <th colspan="2" style="text-align:left">{{trans('file.grand total')}}</th>
                     <th style="text-align:right">{{number_format((float)($lims_sale_data->grand_total), $general_setting->decimal, ',','.')}}</th>
                 </tr>
                 @endif
-                
+
                  @foreach($lims_payment_data as $payment_data)
                 <tr style="background-color:#ddd;">
                     <td style="padding: 5px;width:30%">{{trans('file.Paid By')}}: {{$payment_data->paying_method}}</td>
                     <td style="padding: 5px;width:40%">{{trans('file.Amount')}}: {{number_format((float)($payment_data->amount), $general_setting->decimal, ',','.')}}</td>
                     <td style="padding: 5px;width:30%">{{trans('file.Change')}}: {{number_format((float)$payment_data->change, $general_setting->decimal, ',','.')}}</td>
 
-                </tr>                
+                </tr>
                 @endforeach
                 <tr>
                     @if($general_setting->currency_position == 'prefix')
@@ -221,19 +222,19 @@
                     <th class="centered" colspan="3">{{trans('file.In Words')}}: <span>{{str_replace("-"," ",$numberInWords)}}</span> <span>{{$currency_code}}</span></th>
                     @endif
                 </tr>
-               
+
             </tbody>
             <!-- </tfoot> -->
         </table>
         <table>
             <tbody>
-                
+
                 <tr><td class="centered" colspan="3">{{trans('file.Thank you for shopping with us. Please come again')}}</td></tr>
                 <tr>
                     <td class="centered" colspan="3">
                     <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS1D::getBarcodePNG($lims_sale_data->reference_no, 'C128') . '" width="300" alt="barcode"   />';?>
                     <br>
-                    <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS2D::getBarcodePNG($lims_sale_data->reference_no, 'QRCODE') . '" alt="QRcode"   />';?>    
+                    <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS2D::getBarcodePNG($lims_sale_data->reference_no, 'QRCODE') . '" alt="QRcode"   />';?>
                     </td>
                 </tr>
             </tbody>
@@ -247,7 +248,7 @@
 
 <script type="text/javascript">
     localStorage.clear();
-    function auto_print() {     
+    function auto_print() {
         window.print();
     }
     setTimeout(auto_print, 1000);

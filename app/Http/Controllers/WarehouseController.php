@@ -27,9 +27,21 @@ class WarehouseController extends Controller
                     return $query->where('is_active', 1);
                 }),
             ],
+            'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
         ]);
+
+        $data = $request->except('site_logo');
+
         $input = $request->all();
         $input['is_active'] = true;
+
+        $logo = $request->site_logo;
+        if ($logo) {
+            $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
+            $logoName = date("Ymdhis") . '.' . $ext;
+            $logo->move('public/logo', $logoName);
+            $input['site_logo'] = $logoName;
+        }
         Warehouse::create($input);
         $this->cacheForget('warehouse_list');
         return redirect('warehouse')->with('message', 'Data inserted successfully');
@@ -40,7 +52,7 @@ class WarehouseController extends Controller
         $lims_warehouse_data = Warehouse::findOrFail($id);
         return $lims_warehouse_data;
     }
-   
+
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -50,8 +62,23 @@ class WarehouseController extends Controller
                     return $query->where('is_active', 1);
                 }),
             ],
+            'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
         ]);
+
+        $data = $request->except('site_logo');
+
         $input = $request->all();
+
+        $logo = $request->site_logo;
+        dd($logo);
+
+        if ($logo) {
+            $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
+            $logoName = date("Ymdhis") . '.' . $ext;
+            $logo->move('public/logo', $logoName);
+            $input['site_logo'] = $logoName;
+        }
+
         $lims_warehouse_data = Warehouse::find($input['warehouse_id']);
         $lims_warehouse_data->update($input);
         $this->cacheForget('warehouse_list');

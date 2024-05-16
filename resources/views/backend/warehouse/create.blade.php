@@ -106,6 +106,17 @@
             <label>{{trans('file.Address')}} *</label>
             <textarea required class="form-control" rows="3" name="address"></textarea>
           </div>
+
+            <div class="form-group">
+                <label>{{trans('file.System Logo')}} </label>
+                <input type="file" name="site_logo" class="form-control" value=""/>
+                @if($errors->has('site_logo'))
+                <span>
+                    <strong>{{ $errors->first('site_logo') }}</strong>
+                </span>
+                @endif
+            </div>
+
           <div class="form-group">
             <input type="submit" value="{{trans('file.submit')}}" class="btn btn-primary">
           </div>
@@ -142,6 +153,17 @@
             <label>{{trans('file.Address')}} *</label>
             <textarea class="form-control" rows="3" name="address" required></textarea>
           </div>
+
+            <div class="form-group">
+                <label>{{trans('file.System Logo')}} </label>
+                <input type="file" name="site_logo" class="form-control" value=""/>
+            </div>
+            @if($errors->has('site_logo'))
+            <span>
+                <strong>{{ $errors->first('site_logo') }}</strong>
+            </span>
+            @endif
+
           <div class="form-group">
             <input type="submit" value="{{trans('file.submit')}}" class="btn btn-primary">
           </div>

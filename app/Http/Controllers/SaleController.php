@@ -2079,38 +2079,16 @@ class SaleController extends Controller
     {
         $lims_sale_data = Sale::find($id);
         $lims_product_sale_data = Product_Sale::where('sale_id', $id)->get();
-        if(cache()->has('biller_list'))
-        {
-            $lims_biller_data = cache()->get('biller_list')->find($lims_sale_data->biller_id);
-        }
-        else{
-            $lims_biller_data = Biller::find($lims_sale_data->biller_id);
-        }
-        if(cache()->has('warehouse_list'))
-        {
-            $lims_warehouse_data = cache()->get('warehouse_list')->find($lims_sale_data->warehouse_id);
-        }
-        else{
-            $lims_warehouse_data = Warehouse::find($lims_sale_data->warehouse_id);
-        }
 
-        if(cache()->has('customer_list'))
-        {
-            $lims_customer_data = cache()->get('customer_list')->find($lims_sale_data->customer_id);
-        }
-        else{
-            $lims_customer_data = Customer::find($lims_sale_data->customer_id);
-        }
+        $lims_biller_data = Biller::find($lims_sale_data->biller_id);
+
+        $lims_warehouse_data = Warehouse::find($lims_sale_data->warehouse_id);
+
+        $lims_customer_data = Customer::find($lims_sale_data->customer_id);
 
         $lims_payment_data = Payment::where('sale_id', $id)->get();
-        if(cache()->has('pos_setting'))
-        {
-            $lims_pos_setting_data = cache()->get('pos_setting');
-        }
-        else{
-            $lims_pos_setting_data = PosSetting::select('invoice_option')->latest()->first();
-        }
 
+        $lims_pos_setting_data = PosSetting::select('invoice_option')->latest()->first();
 
         $numberToWords = new NumberToWords();
         if(\App::getLocale() == 'ar' || \App::getLocale() == 'hi' || \App::getLocale() == 'vi' || \App::getLocale() == 'en-gb' || \App::getLocale() == 's_chinese' || \App::getLocale() == 't_chinese')

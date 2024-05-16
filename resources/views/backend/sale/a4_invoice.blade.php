@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" type="image/png" href="{{url('public/logo', $general_setting->site_logo)}}" />
+        <link rel="icon" type="image/png" href="{{url('public/logo', $lims_warehouse_data->site_logo)}}" />
         <title>{{$lims_sale_data->customer->name.'_Sale_'.$lims_sale_data->reference_no}}</title>
         <style type="text/css">
             span,td {
@@ -49,7 +49,7 @@
                     <div>
                         <span>Phone:</span>&nbsp;&nbsp;<span>{{$lims_warehouse_data->phone}}</span>
                     </div>
-                    <?php 
+                    <?php
                         foreach($sale_custom_fields as $key => $fieldName) {
                             $field_name = str_replace(" ", "_", strtolower($fieldName));
                             echo '<div><span>'.$fieldName.': ' . $lims_sale_data->$field_name.'</span></div>';
@@ -66,6 +66,9 @@
                     </div>
                     <div style="display: flex;justify-content: space-between;border-bottom:1px solid #aaa">
                         <span>Date:</span> <span>{{$lims_sale_data->created_at}}</span>
+                    </div>
+                    <div style="display: flex;justify-content: space-between;border-bottom:1px solid #aaa">
+                        <span>Gudang:</span> <span>{{$lims_warehouse_data->name}}</span>
                     </div>
                     @if($paid_by_info)
                         <div style="display: flex;justify-content: space-between;border-bottom:1px solid #aaa">
@@ -93,7 +96,7 @@
                     </div>
                 </td>
                 <td colspan="4" style="width:60%">
-                    
+
                 </td>
             </tr>
         </table>
@@ -107,12 +110,12 @@
                 <td style="border:1px solid #222;padding:1px 3px;width:7%;text-align:center">{{trans('file.Tax')}}</td>
                 <td style="border:1px solid #222;padding:1px 2px;width:13%;text-align:center;">{{trans('file.Subtotal')}}</td>
             </tr>
-            <?php 
+            <?php
                 $total_product_tax = 0;
                 $totalPrice = 0;
             ?>
             @foreach($lims_product_sale_data as $key => $product_sale_data)
-            <?php 
+            <?php
                 $lims_product_data = \App\Product::select('name')->find($product_sale_data->product_id);
                 if($product_sale_data->sale_unit_id) {
                     $unit = \App\Unit::select('unit_code')->find($product_sale_data->sale_unit_id);
@@ -127,7 +130,7 @@
                 }
                 else
                     $variant_name = '';
-                $totalPrice += $product_sale_data->net_unit_price * $product_sale_data->qty; 
+                $totalPrice += $product_sale_data->net_unit_price * $product_sale_data->qty;
             ?>
             <tr>
                 <td style="@if( Config::get('app.locale') == 'ar' || $general_setting->is_rtl){{'border-right:1px solid #222;'}}@endif border:1px solid #222;padding:1px 3px;text-align: center;">{{$key+1}}</td>
@@ -206,15 +209,15 @@
                     <br>
                     <?php echo '<img style="max-width:100%" src="data:image/png;base64,' . DNS1D::getBarcodePNG($lims_sale_data->reference_no, 'C128') . '" alt="barcode"   />';?>
                     <br><br>
-                    <?php echo '<img style="width:5%" src="data:image/png;base64,' . DNS2D::getBarcodePNG($lims_sale_data->reference_no, 'QRCODE') . '" alt="barcode"   />';?> 
+                    <?php echo '<img style="width:5%" src="data:image/png;base64,' . DNS2D::getBarcodePNG($lims_sale_data->reference_no, 'QRCODE') . '" alt="barcode"   />';?>
                 </td>
             </tr>
         </table>
         <script type="text/javascript">
             localStorage.clear();
-            function auto_print() {     
+            function auto_print() {
                 window.print();
-                
+
             }
             setTimeout(auto_print, 1000);
         </script>
