@@ -100,6 +100,17 @@ class OlshopController extends Controller
     public function store(Request $request)
     {
 
+        $validator = Validator::make(
+            [
+                'file'      => $request->file,
+                'extension' => strtolower($request->file->getClientOriginalExtension()),
+            ],
+            [
+                'file'          => 'required',
+                'extension'      => 'required|in:xls',
+            ]
+        );
+
         $user_id    = Auth::id();
         $biller     = request('biller_id');
         $gudang     = request('warehouse_id');
