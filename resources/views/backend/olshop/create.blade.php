@@ -48,7 +48,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{trans('file.Upload CSV File')}} *</label>
+                                            <label>Upload .XLS File *</label>
                                             <input required type="file" class="form-control-file" id="excel_upload" name='excel_upload' onchange="filePicked(event)">
                                             <p>{{trans('file.The correct column order is')}} (product_code, quantity, sale_unit, product_price, discount, tax_name) {{trans('file.and you must follow this')}}. {{trans('file.For Digital product sale_unit will be n/a')}}. {{trans('file.All columns are required')}}</p>
                                         </div>
