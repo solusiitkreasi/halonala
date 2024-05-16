@@ -102,12 +102,12 @@ class OlshopController extends Controller
 
         $validator = Validator::make(
             [
-                'file'      => $request->file,
-                'extension' => strtolower($request->file->getClientOriginalExtension()),
+                'file'          => $request->file,
+                'extension'     => strtolower($request->file->getClientOriginalExtension()),
             ],
             [
                 'file'          => 'required',
-                'extension'      => 'required|in:xls',
+                'extension'     => 'required|in:xls',
             ]
         );
 
