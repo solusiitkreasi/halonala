@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 use File;
 use Redirect;
 use Excel;
@@ -100,16 +101,12 @@ class OlshopController extends Controller
     public function store(Request $request)
     {
 
-        $validator = Validator::make(
-            [
-                'file'          => $request->file,
-                'extension'     => strtolower($request->file->getClientOriginalExtension()),
-            ],
-            [
-                'file'          => 'required',
-                'extension'     => 'required|in:xls',
-            ]
-        );
+        //get the file
+        $upload = $request->file('excel_upload');
+        $ext = pathinfo($upload->getClientOriginalName(), PATHINFO_EXTENSION);
+        //checking if this is a CSV file
+        if($ext != 'xls')
+            return redirect()->back()->with('error', 'Please upload a .XLS file');
 
         $user_id    = Auth::id();
         $biller     = request('biller_id');
@@ -124,6 +121,9 @@ class OlshopController extends Controller
         foreach($array as $key => $val){
 
             foreach ($val as $key2 => $val2){
+
+                $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
+                if(!empty($cekproduct)){
                 #-- Olshop data
                     # Header
                     $olshop                             = Olshop::firstorNew([ 'no_trn' => $codeTrn ]);
@@ -131,17 +131,17 @@ class OlshopController extends Controller
                         $olshop->no_trn                 = $codeTrn;
                         $olshop->user_id                = $biller;
                         $olshop->warehouse_id           = $gudang;
-                        $olshop->save();
+                        // $olshop->save();
                     }
 
-                    $product        = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                    $product        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first(); //Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
 
                     $no_resi        = $val2['no_resi'];
                     $no_pesanan     = $val2['no_pesanan'];
                     $jumlah         = $val2['jumlah'];
                     $product_id     = $product['id'];
 
-
+                    dd($product_id);
                     # Detail
                     $olshopDetail['olshop_id']         = $olshop->id;
                     $olshopDetail['product_id']        = $product_id;
@@ -149,7 +149,7 @@ class OlshopController extends Controller
                     $olshopDetail['no_pesanan']        = $no_pesanan;
                     $olshopDetail['qty']               = $jumlah;
                     if (!empty($olshopDetail['product_id'] )){
-                        OlshopDetail::create($olshopDetail);
+                        // OlshopDetail::create($olshopDetail);
                     }
                 #-- End Olshop data
 
@@ -174,8 +174,6 @@ class OlshopController extends Controller
                             $penjualan->payment_status         = '4';
                             $penjualan->sale_note              = 'Import Excel Olshop';
                             $penjualan->save();
-
-
                         }
 
                         $productBatch        = ProductBatch::where('product_id',$product_id)->first();
@@ -207,7 +205,7 @@ class OlshopController extends Controller
                         $penjualanDetail['tax_rate']    = '0';
                         $penjualanDetail['tax']    = '0';
                         $penjualanDetail['total']    = '0';
-                        Product_Sale::create($penjualanDetail);
+                        // Product_Sale::create($penjualanDetail);
 
                         $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
                         $delivery->reference_no     = $no_resi;
@@ -226,7 +224,7 @@ class OlshopController extends Controller
 
                 #-- Warehouse potong stok
                     # Data
-                    $product_data       = Product::firstOrNew([ 'name' => $val2['nama_produk'] ]); //firstOrNew([ 'name' => $val2['nama_produk'] ]);
+                    $product_data       = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
                     $product_data_id    = $product_data['id'];
 
                     if (!empty($product_data_id)){
@@ -269,6 +267,8 @@ class OlshopController extends Controller
                         $product_data->qty -= $jumlah;
                         $product_data->save();
                     }
+                #-- END Warehouse potong stok
+                }
             }
         }
 
