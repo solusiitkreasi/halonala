@@ -90,12 +90,6 @@ class OlshopController extends Controller
         return 'Delivery deleted successfully';
     }
 
-    public function delete($id)
-    {
-        $olshop_data = Delivery::find($id);
-        $olshop_data->delete();
-        return redirect('olshop')->with('not_permitted', 'Delivery deleted successfully');
-    }
 
 
     public function store(Request $request)
@@ -167,7 +161,7 @@ class OlshopController extends Controller
                             $penjualan->biller_id              = $biller;
                             $penjualan->item                   = '1';
                             $penjualan->total_qty              = $val2['jumlah_produk_di_pesan'];
-                            $penjualan->total_discount         = '0';
+                            $penjualan->total_discount         = $val2['total_diskon'];
                             $penjualan->total_tax              = '0';
                             $penjualan->total_price            = $val2['total_pembayaran'];
                             $penjualan->grand_total            = $val2['total_pembayaran'];
@@ -191,7 +185,6 @@ class OlshopController extends Controller
                         }else{
                             $variant_id          = null;
                         }
-
 
 
                         # Detail
@@ -274,5 +267,16 @@ class OlshopController extends Controller
         }
 
         return redirect('olshop')->with('message', 'Product imported successfully');
+    }
+
+
+    public function delete($id)
+    {
+        $olshop_data = Olshop::find($id);
+        $olshop_data->delete();
+
+        $olshop_detail_data = OlshopDetail::where('olshop_id',$id);
+        $olshop_detail_data->delete();
+        return redirect('olshop')->with('message', 'Data deleted succesfully');
     }
 }
