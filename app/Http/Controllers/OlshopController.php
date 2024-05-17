@@ -117,154 +117,154 @@ class OlshopController extends Controller
             foreach ($val as $key2 => $val2){
 
                 if(!empty($val2)){
-                $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
+                    $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
 
-                if(!empty($cekproduct)){
-                #-- Olshop data
-                    # Header
-                    $olshop                             = Olshop::firstorNew([ 'no_trn' => $codeTrn ]);
-                    if(isset($olshop)){
-                        $olshop->no_trn                 = $codeTrn;
-                        $olshop->user_id                = $biller;
-                        $olshop->warehouse_id           = $gudang;
-                        $olshop->save();
-                    }
-
-                    $product        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first(); //Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
-
-                    $no_resi        = $val2['no_resi'];
-                    $no_pesanan     = $val2['no_pesanan'];
-                    $jumlah         = $val2['jumlah'];
-                    $product_id     = $product['id'];
-
-                    # Detail
-                    $olshopDetail['olshop_id']         = $olshop->id;
-                    $olshopDetail['product_id']        = $product_id;
-                    $olshopDetail['no_resi']           = $no_resi;
-                    $olshopDetail['no_pesanan']        = $no_pesanan;
-                    $olshopDetail['harga']             = $val2['total_harga_produk'];
-                    $olshopDetail['variasi']           = $val2['nama_variasi'];
-                    $olshopDetail['qty']               = $jumlah;
-                    if (!empty($olshopDetail['product_id'] )){
-                        OlshopDetail::create($olshopDetail);
-                    }
-                #-- End Olshop data
-
-                #-- Penjualan data
-                    # Header
-                    $reference_no   = $val2['no_pesanan'];
-                    $penjualan      = Sale::firstorNew(['reference_no' => $reference_no]);
-                    if (!empty($olshopDetail['product_id'] )){
-                        if(isset($penjualan)){
-                            $penjualan->reference_no           = $reference_no;
-                            $penjualan->user_id                = $user_id;
-                            $penjualan->customer_id            = '1';
-                            $penjualan->warehouse_id           = $gudang;
-                            $penjualan->biller_id              = $biller;
-                            $penjualan->item                   = '1';
-                            $penjualan->total_qty              = $val2['jumlah_produk_di_pesan'];
-                            $penjualan->total_discount         = $val2['total_diskon'];
-                            $penjualan->total_tax              = '0';
-                            $penjualan->total_price            = $val2['total_pembayaran'];
-                            $penjualan->grand_total            = $val2['total_pembayaran'];
-                            $penjualan->sale_status            = '1';
-                            $penjualan->payment_status         = '4';
-                            $penjualan->sale_note              = 'Import Excel Olshop';
-                            $penjualan->save();
+                    if(!empty($cekproduct)){
+                    #-- Olshop data
+                        # Header
+                        $olshop                             = Olshop::firstorNew([ 'no_trn' => $codeTrn ]);
+                        if(isset($olshop)){
+                            $olshop->no_trn                 = $codeTrn;
+                            $olshop->user_id                = $biller;
+                            $olshop->warehouse_id           = $gudang;
+                            $olshop->save();
                         }
 
-                        $productBatch        = ProductBatch::where('product_id',$product_id)->first();
-                        $productVariant      = ProductVariant::where('product_id',$product_id)->first();
+                        $product        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first(); //Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
 
-                        if(!empty($productBatch)){
-                            $productBatchId      = $productBatch['id'];
-                        }else{
-                            $productBatchId      = null;
-                        }
-
-                        if(!empty($productVariant)){
-                            $variant_id          = $productVariant['variant_id'];
-                        }else{
-                            $variant_id          = null;
-                        }
-
+                        $no_resi        = $val2['no_resi'];
+                        $no_pesanan     = $val2['no_pesanan'];
+                        $jumlah         = $val2['jumlah'];
+                        $product_id     = $product['id'];
 
                         # Detail
-                        $penjualanDetail['sale_id']           = $penjualan->id;
-                        $penjualanDetail['sale_unit_id']      = '1';
-                        $penjualanDetail['product_id']        = $product_id;
-                        $penjualanDetail['product_batch_id']  = $productBatchId;
-                        $penjualanDetail['variant_id']        = $variant_id;
-                        $penjualanDetail['qty']               = $jumlah;
-                        $penjualanDetail['net_unit_price']    = $val2['harga_awal'];
-                        $penjualanDetail['discount']          = $val2['total_diskon'];
-                        $penjualanDetail['tax_rate']          = '0';
-                        $penjualanDetail['tax']               = '0';
-                        $penjualanDetail['total']             = $val2['total_harga_produk'];
-                        Product_Sale::create($penjualanDetail);
-
-                        $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
-                        $delivery->reference_no     = $no_resi;
-                        $delivery->sale_id          = $penjualan->id;
-                        $delivery->user_id          = $user_id;
-                        $delivery->address          = $val2['alamat_pengiriman'];
-                        $delivery->delivered_by     = $val2['opsi_pengiriman'];
-                        $delivery->recieved_by      = $val2['nama'];
-                        $delivery->file             = '';
-                        $delivery->note             = 'Import Excel Olshop';
-                        $delivery->status           = '3';
-                        $delivery->save();
-                    }
-                #-- End Penjualan data
-
-
-                #-- Warehouse potong stok
-                    # Data
-                    $product_data       = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
-                    $product_data_id    = $product_data['id'];
-
-                    if (!empty($product_data_id)){
-
-                        //deduct product variant quantity if exist
-                        if($variant_id) {
-                            $product_variant_data = ProductVariant::where('item_code','LIKE',"%{$val2['nama_variasi']}%")->first();
-                            //deduct product variant quantity
-                            $product_variant_data->qty -= $jumlah;
-                            $product_variant_data->save();
-
-                            $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $product_variant_data->variant_id, $gudang)->first();
-
-                        }elseif($productBatchId){
-                            $product_warehouse_data = Product_Warehouse::where([
-                                ['product_id', $product_data_id],
-                                ['product_batch_id', $productBatchId ],
-                                ['warehouse_id', $gudang ]
-                            ])->first();
-
-                            $product_batch_data = ProductBatch::find($productBatchId);
-                            //deduct product batch quantity
-                            $product_batch_data->qty -= $jumlah;
-                            $product_batch_data->save();
-
-
-                        }else{
-                            $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
+                        $olshopDetail['olshop_id']         = $olshop->id;
+                        $olshopDetail['product_id']        = $product_id;
+                        $olshopDetail['no_resi']           = $no_resi;
+                        $olshopDetail['no_pesanan']        = $no_pesanan;
+                        $olshopDetail['harga']             = $val2['total_harga_produk'];
+                        $olshopDetail['variasi']           = $val2['nama_variasi'];
+                        $olshopDetail['qty']               = $jumlah;
+                        if (!empty($olshopDetail['product_id'] )){
+                            OlshopDetail::create($olshopDetail);
                         }
+                    #-- End Olshop data
 
-                        //deduct quantity from warehouse
-                        if(isset($product_warehouse_data->qty)){
-                            $qty = $product_warehouse_data->qty - $jumlah;
+                    #-- Penjualan data
+                        # Header
+                        $reference_no   = $val2['no_pesanan'];
+                        $penjualan      = Sale::firstorNew(['reference_no' => $reference_no]);
+                        if (!empty($olshopDetail['product_id'] )){
+                            if(isset($penjualan)){
+                                $penjualan->reference_no           = $reference_no;
+                                $penjualan->user_id                = $user_id;
+                                $penjualan->customer_id            = '1';
+                                $penjualan->warehouse_id           = $gudang;
+                                $penjualan->biller_id              = $biller;
+                                $penjualan->item                   = '1';
+                                $penjualan->total_qty              = $val2['jumlah_produk_di_pesan'];
+                                $penjualan->total_discount         = $val2['total_diskon'];
+                                $penjualan->total_tax              = '0';
+                                $penjualan->total_price            = $val2['total_pembayaran'];
+                                $penjualan->grand_total            = $val2['total_pembayaran'];
+                                $penjualan->sale_status            = '1';
+                                $penjualan->payment_status         = '4';
+                                $penjualan->sale_note              = 'Import Excel Olshop';
+                                $penjualan->save();
+                            }
 
-                            $product_warehouse_data->update([
-                                'qty'   => $qty,
-                            ]);
+                            $productBatch        = ProductBatch::where('product_id',$product_id)->first();
+                            $productVariant      = ProductVariant::where('product_id',$product_id)->first();
+
+                            if(!empty($productBatch)){
+                                $productBatchId      = $productBatch['id'];
+                            }else{
+                                $productBatchId      = null;
+                            }
+
+                            if(!empty($productVariant)){
+                                $variant_id          = $productVariant['variant_id'];
+                            }else{
+                                $variant_id          = null;
+                            }
+
+
+                            # Detail
+                            $penjualanDetail['sale_id']           = $penjualan->id;
+                            $penjualanDetail['sale_unit_id']      = '1';
+                            $penjualanDetail['product_id']        = $product_id;
+                            $penjualanDetail['product_batch_id']  = $productBatchId;
+                            $penjualanDetail['variant_id']        = $variant_id;
+                            $penjualanDetail['qty']               = $jumlah;
+                            $penjualanDetail['net_unit_price']    = $val2['harga_awal'];
+                            $penjualanDetail['discount']          = $val2['total_diskon'];
+                            $penjualanDetail['tax_rate']          = '0';
+                            $penjualanDetail['tax']               = '0';
+                            $penjualanDetail['total']             = $val2['total_harga_produk'];
+                            Product_Sale::create($penjualanDetail);
+
+                            $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
+                            $delivery->reference_no     = $no_resi;
+                            $delivery->sale_id          = $penjualan->id;
+                            $delivery->user_id          = $user_id;
+                            $delivery->address          = $val2['alamat_pengiriman'];
+                            $delivery->delivered_by     = $val2['opsi_pengiriman'];
+                            $delivery->recieved_by      = $val2['nama'];
+                            $delivery->file             = '';
+                            $delivery->note             = 'Import Excel Olshop';
+                            $delivery->status           = '3';
+                            $delivery->save();
                         }
+                    #-- End Penjualan data
 
-                        $product_data->qty -= $jumlah;
-                        $product_data->save();
+
+                    #-- Warehouse potong stok
+                        # Data
+                        $product_data       = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
+                        $product_data_id    = $product_data['id'];
+
+                        if (!empty($product_data_id)){
+
+                            //deduct product variant quantity if exist
+                            if($variant_id) {
+                                $product_variant_data = ProductVariant::where('item_code','LIKE',"%{$val2['nama_variasi']}%")->first();
+                                //deduct product variant quantity
+                                $product_variant_data->qty -= $jumlah;
+                                $product_variant_data->save();
+
+                                $product_warehouse_data = Product_Warehouse::FindProductWithVariant($product_data_id, $product_variant_data->variant_id, $gudang)->first();
+
+                            }elseif($productBatchId){
+                                $product_warehouse_data = Product_Warehouse::where([
+                                    ['product_id', $product_data_id],
+                                    ['product_batch_id', $productBatchId ],
+                                    ['warehouse_id', $gudang ]
+                                ])->first();
+
+                                $product_batch_data = ProductBatch::find($productBatchId);
+                                //deduct product batch quantity
+                                $product_batch_data->qty -= $jumlah;
+                                $product_batch_data->save();
+
+
+                            }else{
+                                $product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_data_id, $gudang)->first();
+                            }
+
+                            //deduct quantity from warehouse
+                            if(isset($product_warehouse_data->qty)){
+                                $qty = $product_warehouse_data->qty - $jumlah;
+
+                                $product_warehouse_data->update([
+                                    'qty'   => $qty,
+                                ]);
+                            }
+
+                            $product_data->qty -= $jumlah;
+                            $product_data->save();
+                        }
+                    #-- END Warehouse potong stok
                     }
-                #-- END Warehouse potong stok
-                }
                 }
             }
         }
