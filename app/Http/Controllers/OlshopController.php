@@ -278,7 +278,7 @@ class OlshopController extends Controller
 
     public function delete($id)
     {
-        $olshop_data = Olshop::find($id);
+        $olshop_data = OlshopDetail::find($id);
         $olshop_data->delete();
 
 
