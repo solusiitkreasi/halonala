@@ -48,7 +48,7 @@
                             </button>
                             <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
                                 <li class="divider"></li>
-                                {{ Form::open(['route' => ['olshop.delete', $val->id], 'method' => 'post'] ) }}
+                                {{ Form::open(['route' => ['olshop.delete', $val->id_detail], 'method' => 'post'] ) }}
                                 <li>
                                     <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> {{trans('file.delete')}}</button>
                                 </li>
