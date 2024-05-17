@@ -48,7 +48,7 @@
                             </button>
                             <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
                                 <li class="divider"></li>
-                                {{ Form::open(['route' => ['olshop.delete', $val->olshop_id], 'method' => 'post'] ) }}
+                                {{ Form::open(['route' => ['olshop.delete', $val->id], 'method' => 'post'] ) }}
                                 <li>
                                     <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> {{trans('file.delete')}}</button>
                                 </li>
@@ -74,6 +74,8 @@
     $("ul#sale #olshop-menu").addClass("active");
 
     var olshop_id = [];
+    var user_verified = <?php echo json_encode(env('USER_VERIFIED')) ?>;
+
 
     $.ajaxSetup({
         headers: {

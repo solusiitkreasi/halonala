@@ -281,8 +281,7 @@ class OlshopController extends Controller
         $olshop_data = Olshop::find($id);
         $olshop_data->delete();
 
-        $olshop_detail_data = OlshopDetail::where('olshop_id',$id);
-        $olshop_detail_data->delete();
+
         return redirect('olshop')->with('message', 'Data deleted succesfully');
     }
 }
