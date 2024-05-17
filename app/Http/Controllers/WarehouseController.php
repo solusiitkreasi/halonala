@@ -18,39 +18,40 @@ class WarehouseController extends Controller
         return view('backend.warehouse.create', compact('lims_warehouse_all', 'numberOfWarehouse'));
     }
 
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => [
-                'max:255',
-                    Rule::unique('warehouses')->where(function ($query) {
-                    return $query->where('is_active', 1);
-                }),
-            ],
-            'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
-        ]);
-
-        $data = $request->except('site_logo');
-
-        $input = $request->all();
-        $input['is_active'] = true;
-
-        $logo = $request->site_logo;
-        if ($logo) {
-            $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
-            $logoName = date("Ymdhis") . '.' . $ext;
-            $logo->move('public/logo', $logoName);
-            $input['site_logo'] = $logoName;
-        }
-        Warehouse::create($input);
-        $this->cacheForget('warehouse_list');
-        return redirect('warehouse')->with('message', 'Data inserted successfully');
-    }
 
     public function edit($id)
     {
         $lims_warehouse_data = Warehouse::findOrFail($id);
         return $lims_warehouse_data;
+    }
+
+    public function store(Request $request)
+    {
+        // $this->validate($request, [
+        //     'name' => [
+        //         'max:255',
+        //             Rule::unique('warehouses')->where(function ($query) {
+        //             return $query->where('is_active', 1);
+        //         }),
+        //     ],
+        //     'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
+        // ]);
+
+        // $data = $request->except('site_logo');
+
+        $input = $request->all();
+        $input['is_active'] = true;
+
+        // $logo = $request->site_logo;
+        // if ($logo) {
+        //     $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
+        //     $logoName = date("Ymdhis") . '.' . $ext;
+        //     $logo->move('public/logo', $logoName);
+        //     $input['site_logo'] = $logoName;
+        // }
+        Warehouse::create($input);
+        $this->cacheForget('warehouse_list');
+        return redirect('warehouse')->with('message', 'Data inserted successfully');
     }
 
     public function update(Request $request, $id)

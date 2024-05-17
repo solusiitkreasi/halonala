@@ -116,7 +116,9 @@ class OlshopController extends Controller
 
             foreach ($val as $key2 => $val2){
 
+                if(!empty($val2)){
                 $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
+
                 if(!empty($cekproduct)){
                 #-- Olshop data
                     # Header
@@ -262,6 +264,7 @@ class OlshopController extends Controller
                         $product_data->save();
                     }
                 #-- END Warehouse potong stok
+                }
                 }
             }
         }
