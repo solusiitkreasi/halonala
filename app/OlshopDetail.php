@@ -15,6 +15,8 @@ class OlshopDetail extends Model
         'product_id',
         'no_resi',
         'no_pesanan',
+        'variasi',
+        'harga',
         'qty'
     ];
 }

@@ -131,7 +131,7 @@ class OlshopController extends Controller
                         $olshop->no_trn                 = $codeTrn;
                         $olshop->user_id                = $biller;
                         $olshop->warehouse_id           = $gudang;
-                        // $olshop->save();
+                        $olshop->save();
                     }
 
                     $product        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first(); //Product::firstOrNew([ 'name' => $val2['nama_produk'] ]);
@@ -141,15 +141,16 @@ class OlshopController extends Controller
                     $jumlah         = $val2['jumlah'];
                     $product_id     = $product['id'];
 
-                    dd($product_id);
                     # Detail
                     $olshopDetail['olshop_id']         = $olshop->id;
                     $olshopDetail['product_id']        = $product_id;
                     $olshopDetail['no_resi']           = $no_resi;
                     $olshopDetail['no_pesanan']        = $no_pesanan;
+                    $olshopDetail['harga']             = $val2['total_harga_produk'];
+                    $olshopDetail['variasi']           = $val2['nama_variasi'];
                     $olshopDetail['qty']               = $jumlah;
                     if (!empty($olshopDetail['product_id'] )){
-                        // OlshopDetail::create($olshopDetail);
+                        OlshopDetail::create($olshopDetail);
                     }
                 #-- End Olshop data
 
@@ -165,11 +166,11 @@ class OlshopController extends Controller
                             $penjualan->warehouse_id           = $gudang;
                             $penjualan->biller_id              = $biller;
                             $penjualan->item                   = '1';
-                            $penjualan->total_qty              = '1';
+                            $penjualan->total_qty              = $val2['jumlah_produk_di_pesan'];
                             $penjualan->total_discount         = '0';
                             $penjualan->total_tax              = '0';
-                            $penjualan->total_price            = '0';
-                            $penjualan->grand_total            = '0';
+                            $penjualan->total_price            = $val2['total_pembayaran'];
+                            $penjualan->grand_total            = $val2['total_pembayaran'];
                             $penjualan->sale_status            = '1';
                             $penjualan->payment_status         = '4';
                             $penjualan->sale_note              = 'Import Excel Olshop';
@@ -200,12 +201,12 @@ class OlshopController extends Controller
                         $penjualanDetail['product_batch_id']  = $productBatchId;
                         $penjualanDetail['variant_id']        = $variant_id;
                         $penjualanDetail['qty']               = $jumlah;
-                        $penjualanDetail['net_unit_price']    = '0';
-                        $penjualanDetail['discount']    = '0';
-                        $penjualanDetail['tax_rate']    = '0';
-                        $penjualanDetail['tax']    = '0';
-                        $penjualanDetail['total']    = '0';
-                        // Product_Sale::create($penjualanDetail);
+                        $penjualanDetail['net_unit_price']    = $val2['harga_awal'];
+                        $penjualanDetail['discount']          = $val2['total_diskon'];
+                        $penjualanDetail['tax_rate']          = '0';
+                        $penjualanDetail['tax']               = '0';
+                        $penjualanDetail['total']             = $val2['total_harga_produk'];
+                        Product_Sale::create($penjualanDetail);
 
                         $delivery                   = Delivery::firstorNew(['reference_no' => $no_resi]);
                         $delivery->reference_no     = $no_resi;

@@ -18,8 +18,9 @@
                     <th>{{trans('file.Delivery Reference')}}</th>
                     <th>{{trans('file.Sale Reference')}}</th>
                     <th>{{trans('file.Products')}}</th>
+                    <th>Variasi</th>
                     <th>Jumlah</th>
-                    <th class="not-exported"></th>
+                    <th>Harga</th>
                     <th class="not-exported"></th>
                 </tr>
             </thead>
@@ -33,9 +34,25 @@
                     <td>{{$val->no_resi}}</td>
                     <td>{{$val->no_pesanan}}</td>
                     <td>{{$product->name}}</td>
+                    <td>{{$val->variasi}}</td>
                     <td>{{$val->qty}}</td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$val->harga}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{trans('file.action')}}
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
+                                <li class="divider"></li>
+                                {{ Form::open(['route' => ['olshop.destroy', $val->id_detail], 'method' => 'DELETE'] ) }}
+                                <li>
+                                    <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> {{trans('file.delete')}}</button>
+                                </li>
+                                {{ Form::close() }}
+                            </ul>
+                        </div>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -54,7 +71,6 @@
     $("ul#sale #olshop-menu").addClass("active");
 
     var olshop_id = [];
-    var user_verified = <?php echo json_encode(env('USER_VERIFIED')) ?>;
 
     $.ajaxSetup({
         headers: {
@@ -62,14 +78,12 @@
         }
     });
 
-
     function confirmDelete() {
         if (confirm("Are you sure want to delete?")) {
             return true;
         }
         return false;
     }
-
 
     $('#olshop-table').DataTable( {
         "order": [],
