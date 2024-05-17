@@ -111,15 +111,18 @@ class OlshopController extends Controller
 
         $array= Excel::toArray(new BarangImport, $file);
 
+
         $data = [];
         foreach($array as $key => $val){
 
             foreach ($val as $key2 => $val2){
 
-                if(!empty($val2)){
-                    $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
 
-                    if(!empty($cekproduct)){
+                if(!empty($val2['nama_produk'])){
+                    $cekproduct        = Product::where('name','LIKE',"%{$val2['nama_produk']}%")->first();
+                }
+
+                if(!empty($cekproduct)){
                     #-- Olshop data
                         # Header
                         $olshop                             = Olshop::firstorNew([ 'no_trn' => $codeTrn ]);
@@ -264,8 +267,8 @@ class OlshopController extends Controller
                             $product_data->save();
                         }
                     #-- END Warehouse potong stok
-                    }
                 }
+
             }
         }
 
