@@ -55,29 +55,27 @@ class WarehouseController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => [
-                'max:255',
-                    Rule::unique('warehouses')->ignore($request->warehouse_id)->where(function ($query) {
-                    return $query->where('is_active', 1);
-                }),
-            ],
-            'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
-        ]);
+        // $this->validate($request, [
+        //     'name' => [
+        //         'max:255',
+        //             Rule::unique('warehouses')->ignore($request->warehouse_id)->where(function ($query) {
+        //             return $query->where('is_active', 1);
+        //         }),
+        //     ],
+        //     'site_logo' => 'image|mimes:jpg,jpeg,png,gif|max:100000',
+        // ]);
 
-        $data = $request->except('site_logo');
+        // $data = $request->except('site_logo');
 
         $input = $request->all();
 
-        $logo = $request->site_logo;
-        dd($logo);
 
-        if ($logo) {
-            $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
-            $logoName = date("Ymdhis") . '.' . $ext;
-            $logo->move('public/logo', $logoName);
-            $input['site_logo'] = $logoName;
-        }
+        // if ($logo) {
+        //     $ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
+        //     $logoName = date("Ymdhis") . '.' . $ext;
+        //     $logo->move('public/logo', $logoName);
+        //     $input['site_logo'] = $logoName;
+        // }
 
         $lims_warehouse_data = Warehouse::find($input['warehouse_id']);
         $lims_warehouse_data->update($input);
