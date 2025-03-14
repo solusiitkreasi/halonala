@@ -12,3 +12,7 @@ yarn-error.log
 bootstrap/cache/config.php
 bootstrap/cache/routes-v7.php
 bootstrap/cache/routes-v7.php
+bootstrap/cache/packages.php
+bootstrap/cache/routes-v7.php
+composer.lock
+bootstrap/cache/packages.php

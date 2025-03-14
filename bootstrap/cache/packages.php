@@ -67,13 +67,13 @@
   ),
   'maatwebsite/excel' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    ),
     'aliases' => 
     array (
       'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
+    ),
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     ),
   ),
   'milon/barcode' => 
@@ -111,13 +111,13 @@
   ),
   'srmklive/paypal' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    ),
     'aliases' => 
     array (
       'PayPal' => 'Srmklive\\PayPal\\Facades\\PayPal',
+    ),
+    'providers' => 
+    array (
+      0 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
     ),
   ),
 );
