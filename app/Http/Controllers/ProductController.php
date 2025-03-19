@@ -49,17 +49,29 @@ class ProductController extends Controller
 
     public function productData(Request $request)
     {
-        $columns = array(
-            2 => 'name',
-            3 => 'code',
-            4 => 'brand_id',
-            5 => 'category_id',
-            6 => 'qty',
-            7 => 'unit_id',
-            8 => 'price',
-            9 => 'cost',
-            10 => 'stock_worth'
-        );
+        if(Auth::user()->role_id <= 2){
+            $columns = array(
+                2 => 'name',
+                3 => 'code',
+                4 => 'brand_id',
+                5 => 'category_id',
+                6 => 'qty',
+                7 => 'unit_id',
+                8 => 'price',
+                9 => 'cost',
+                10 => 'stock_worth'
+            );
+        }else{
+            $columns = array(
+                2 => 'name',
+                3 => 'code',
+                4 => 'brand_id',
+                5 => 'category_id',
+                6 => 'qty',
+                7 => 'unit_id',
+                8 => 'price'
+            );
+        }
 
         $totalData = Product::where('is_active', true)->count();
         $totalFiltered = $totalData;
